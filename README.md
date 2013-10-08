@@ -1,6 +1,15 @@
 # StaticMock
 
-A mockery-like DSL to replace static method in test.
+A mockery-like DSL to replace static methods in test.
+
+```php
+$mock = StaticMock::mock('FooService');
+$mock
+    ->shouldReceive('find')
+    ->with($arg_id)
+    ->once()
+    ->andReturn('Something');
+```
 
 ## Requirements
 
