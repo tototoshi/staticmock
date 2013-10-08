@@ -6,6 +6,7 @@ namespace StaticMock;
 use MethodReplacer\ClassManager;
 use phpDocumentor\Reflection\Exception;
 use StaticMock\Exception\AssertionFailedException;
+use StaticMock\Recorder\Arguments;
 use StaticMock\Recorder\Counter;
 
 class Mock {
@@ -34,6 +35,7 @@ class Mock {
         } finally {
             ClassManager::getInstance()->deregister($this->class_name, $this->method_name);
             Counter::getInstance()->clear($this->fake->hash());
+            Arguments::getInstance()->clear($this->fake->hash());
         }
     }
 
