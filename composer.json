@@ -1,0 +1,13 @@
+{
+    "name": "tototoshi/staticmock",
+    "require": {
+        "phpmethodreplacer/phpmethodreplacer": "0.2.1"
+    },
+    "require-dev": {
+        "phpunithelper/phpunithelper": "dev-master",
+        "phpunit/phpunit": "3.7.27"
+    },
+    "autoload": {
+        "psr-0": { "StaticMock": ["src/", "test/"] }
+    }
+}
