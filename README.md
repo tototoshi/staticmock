@@ -13,7 +13,7 @@ $mock
 
 ## Requirements
 
- - PHP >=5.5
+ - PHP >=5.3
  - runkit >=1.0.3
 
 ## Install
@@ -23,7 +23,7 @@ composer.json
 ```js
 {
     "require": {
-        "tototoshi/staticmock": "0.1.0"
+        "tototoshi/staticmock": "0.2.0"
     }
 }
 ```
