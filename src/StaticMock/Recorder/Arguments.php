@@ -31,7 +31,11 @@ class Arguments {
 
     public function get($hash)
     {
-        return $this->args[$hash];
+        if (isset($this->args[$hash])) {
+            return $this->args[$hash];
+        } else {
+            return array();
+        }
     }
 
     public function clear($hash)

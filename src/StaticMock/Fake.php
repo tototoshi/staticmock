@@ -11,7 +11,7 @@ class Fake {
 
     public function __construct()
     {
-        $this->_hash = spl_object_hash($this);
+        $this->_hash = md5(uniqid(rand(), true));
     }
 
     public function hash()

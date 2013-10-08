@@ -33,7 +33,11 @@ class Counter {
 
     public function get($id)
     {
-        return $this->count[$id];
+        if (isset($this->count[$id])) {
+            return $this->count[$id];
+        } else {
+            return 0;
+        }
     }
 
     public function clear($id)
