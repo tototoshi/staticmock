@@ -86,7 +86,7 @@ function test1()
 {
     $mock = StaticMock::mock('UserRepository');
     $arg_id = 1;
-    $mock->method('find')->times(1)->shouldReceive($arg_id)->andReturn(new User('Eric'));
+    $mock->shouldReceive('find')->with($arg_id)->times(1)->andReturn(new User('Eric'));
     $actual = UserService::getSomeone($arg_id);
     assert($actual->getName() == 'Eric');
 }
@@ -95,7 +95,7 @@ function test2()
 {
     $mock = StaticMock::mock('UserRepository');
     $arg_id = 1;
-    $mock->method('find')->times(1)->andReturn('Eric');
+    $mock->shouldReceive('find')->once()->andReturn('Eric');
     UserService::getSomeone($arg_id);
     UserService::getSomeone($arg_id);
 }
