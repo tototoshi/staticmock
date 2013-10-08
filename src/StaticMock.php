@@ -14,9 +14,4 @@ class StaticMock {
         return new Mock($class_name);
     }
 
-    public static function stub($class_name)
-    {
-        return new Stub($class_name);
-    }
-
 }
