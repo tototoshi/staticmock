@@ -48,7 +48,7 @@ class Mock {
         return '(' . implode(', ', $a) . ')';
     }
 
-    public function method($method_name)
+    public function shouldReceive($method_name)
     {
         $this->method_name = $method_name;
         $impl = $this->fake->getImplementation(null);
@@ -68,7 +68,19 @@ class Mock {
         return $this;
     }
 
-    public function shouldReceive()
+    public function once()
+    {
+        $this->shouldCalledCount = 1;
+        return $this;
+    }
+
+    public function twice()
+    {
+        $this->shouldCalledCount = 1;
+        return $this;
+    }
+
+    public function with()
     {
         $this->shouldPassedArgs = func_get_args();
         return $this;
