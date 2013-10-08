@@ -76,7 +76,7 @@ class Mock {
 
     public function twice()
     {
-        $this->shouldCalledCount = 1;
+        $this->shouldCalledCount = 2;
         return $this;
     }
 

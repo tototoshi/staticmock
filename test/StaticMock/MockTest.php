@@ -50,6 +50,16 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('ban!', $expected);
     }
 
+    public function testTwice()
+    {
+        $mock = \StaticMock::mock('StaticMock\Car');
+        $mock->shouldReceive('beep')->with(5)->twice()->andReturn('ban!');
+        $p = new Person();
+        $expected = $p->warn(5);
+        $expected = $p->warn(5);
+        $this->assertEquals('ban!', $expected);
+    }
+
     public function testCalledAssertionThrowsExceptionWhenFailed()
     {
         $mock = \StaticMock::mock('\StaticMock\Car');
