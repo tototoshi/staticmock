@@ -21,7 +21,7 @@ composer.json
 
 ## Example
 
-```
+```php
 <?php
 require 'vendor/autoload.php';
 
