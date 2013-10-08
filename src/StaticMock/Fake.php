@@ -21,16 +21,17 @@ class Fake {
 
     public function getImplementation($return_value)
     {
+        $that = $this;
         if ($return_value instanceof \Closure) {
-            return function () use ($return_value) {
-                Counter::getInstance()->increment($this->hash());
-                Arguments::getInstance()->record($this->hash(), func_get_args());
+            return function () use ($return_value, $that) {
+                Counter::getInstance()->increment($that->hash());
+                Arguments::getInstance()->record($that->hash(), func_get_args());
                 return call_user_func_array($return_value, func_get_args());
             };
         } else {
-            return function () use ($return_value) {
-                Counter::getInstance()->increment($this->hash());
-                Arguments::getInstance()->record($this->hash(), func_get_args());
+            return function () use ($return_value, $that) {
+                Counter::getInstance()->increment($that->hash());
+                Arguments::getInstance()->record($that->hash(), func_get_args());
                 return $return_value;
             };
         }

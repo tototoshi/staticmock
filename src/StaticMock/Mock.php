@@ -29,15 +29,33 @@ class Mock {
 
     public function __destruct()
     {
-        try {
-            $this->assertCalledCount();
-            $this->assertPassedArguments();
-        } finally {
-            ClassManager::getInstance()->deregister($this->class_name, $this->method_name);
-            Counter::getInstance()->clear($this->fake->hash());
-            Arguments::getInstance()->clear($this->fake->hash());
+        $called_count = $this->getCalledCount();
+        $passed_arguments = $this->getPassedArguments();
+
+        ClassManager::getInstance()->deregister($this->class_name, $this->method_name);
+        Counter::getInstance()->clear($this->fake->hash());
+        Arguments::getInstance()->clear($this->fake->hash());
+
+        if ($this->shouldCalledCount) {
+            if ($this->shouldCalledCount !== $called_count) {
+                throw new AssertionFailedException(
+                    self::createAssertionFaileMessage($called_count, $this->shouldCalledCount)
+                );
+            }
+        }
+
+        if ($this->shouldPassedArgs) {
+            if ($this->shouldPassedArgs !== $passed_arguments) {
+                throw new AssertionFailedException(
+                    self::createAssertionFaileMessage(
+                        self::mkString($this->shouldPassedArgs),
+                        self::mkString($passed_arguments)
+                    )
+                );
+            }
         }
     }
+
 
     private static function createAssertionFaileMessage($expected, $actual)
     {
@@ -96,28 +114,4 @@ class Mock {
         return $this->fake->args();
     }
 
-    private function assertCalledCount()
-    {
-        if ($this->shouldCalledCount) {
-            if ($this->shouldCalledCount !== $this->getCalledCount()) {
-                throw new AssertionFailedException(
-                    self::createAssertionFaileMessage($this->getCalledCount(), $this->shouldCalledCount)
-                );
-            }
-        }
-    }
-
-    private function assertPassedArguments()
-    {
-        if ($this->shouldPassedArgs) {
-            if ($this->shouldPassedArgs !== $this->getPassedArguments()) {
-                throw new AssertionFailedException(
-                    self::createAssertionFaileMessage(
-                        self::mkString($this->shouldPassedArgs),
-                        self::mkString($this->getPassedArguments())
-                    )
-                );
-            }
-        }
-    }
 }
