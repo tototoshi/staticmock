@@ -6,7 +6,7 @@ A mockery-like DSL to replace static methods in test.
 $mock = StaticMock::mock('FooService');
 $mock
     ->shouldReceive('find')
-    ->with($arg_id)
+    ->with(1)
     ->once()
     ->andReturn('Something');
 ```
