@@ -2,7 +2,7 @@
     "name": "tototoshi/staticmock",
     "license": "BSD-3-Clause",
     "require": {
-        "phpmethodreplacer/phpmethodreplacer": "0.2.1"
+        "phpmethodreplacer/phpmethodreplacer": "0.2.2"
     },
     "require-dev": {
         "phpunithelper/phpunithelper": "dev-master",

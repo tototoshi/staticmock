@@ -6,6 +6,8 @@ namespace StaticMock;
 use MethodReplacer\ClassManager;
 use phpDocumentor\Reflection\Exception;
 use StaticMock\Exception\AssertionFailedException;
+use StaticMock\Exception\ClassNotFoundException;
+use StaticMock\Exception\MethodNotFoundException;
 use StaticMock\Recorder\Arguments;
 use StaticMock\Recorder\Counter;
 
@@ -70,7 +72,14 @@ class Mock {
     {
         $this->method_name = $method_name;
         $impl = $this->fake->getImplementation(null);
-        ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
+        try {
+            ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
+        } catch (\MethodReplacer\Exception\MethodNotFoundException $e) {
+            throw new MethodNotFoundException($e->getMessage());
+        } catch (\MethodReplacer\Exception\ClassNotFoundException $e) {
+            throw new \StaticMock\Exception\ClassNotFoundException($e->getMessage());
+        }
+
         return $this;
     }
 
