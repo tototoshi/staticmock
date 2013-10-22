@@ -23,8 +23,21 @@ class Mock {
 
     private $shouldPassedArgs;
 
+    private $file_instance_created;
+
+    private $line_instance_created;
+
     public function __construct($class_name)
     {
+        $bt = debug_backtrace();
+        if (isset($bt[1])) {
+            if (isset($bt[1]['file'])) {
+                $this->file_instance_created = $bt[1]['file'];
+            }
+            if (isset($bt[1]['line'])) {
+                $this->line_instance_created = $bt[1]['line'];
+            }
+        }
         $this->fake = new Fake();
         $this->class_name = $class_name;
     }
@@ -40,28 +53,39 @@ class Mock {
 
         if ($this->shouldCalledCount) {
             if ($this->shouldCalledCount !== $called_count) {
-                throw new AssertionFailedException(
-                    self::createAssertionFailMessage($called_count, $this->shouldCalledCount)
+                throw $this->createAssertionFailException(
+                    $called_count,
+                    $this->shouldCalledCount,
+                    $this->file_instance_created,
+                    $this->line_instance_created
                 );
             }
         }
 
         if ($this->shouldPassedArgs) {
             if ($this->shouldPassedArgs !== $passed_arguments) {
-                throw new AssertionFailedException(
-                    self::createAssertionFailMessage(
-                        self::mkString($this->shouldPassedArgs),
-                        self::mkString($passed_arguments)
-                    )
+                throw $this->createAssertionFailException(
+                    self::mkString($this->shouldPassedArgs),
+                    self::mkString($passed_arguments),
+                    $this->file_instance_created,
+                    $this->line_instance_created
                 );
             }
         }
     }
 
 
-    private static function createAssertionFailMessage($expected, $actual)
+    private function createAssertionFailException($expected, $actual, $file_instance_created, $line_instance_created)
     {
-        return "Failed asserting that $actual matches expected $expected.";
+        $message = "Failed asserting that $actual matches expected $expected.";
+        $e = new AssertionFailedException($message);
+        if ($file_instance_created) {
+            $e->setFile($file_instance_created);
+        }
+        if ($line_instance_created) {
+            $e->setLine($line_instance_created);
+        }
+        return $e;
     }
 
     private static function mkString(array $a) {
