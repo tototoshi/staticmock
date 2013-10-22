@@ -97,11 +97,4 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(15, $actual);
     }
 
-    public function testWhenMethodNotFound()
-    {
-        $mock = \StaticMock::mock('StaticMock\Car');
-        $this->setExpectedException('\StaticMock\Exception\MethodNotFoundException');
-        $mock->shouldReceive('beeep');
-    }
-
 }
