@@ -41,7 +41,7 @@ class Mock {
         if ($this->shouldCalledCount) {
             if ($this->shouldCalledCount !== $called_count) {
                 throw new AssertionFailedException(
-                    self::createAssertionFaileMessage($called_count, $this->shouldCalledCount)
+                    self::createAssertionFailMessage($called_count, $this->shouldCalledCount)
                 );
             }
         }
@@ -49,7 +49,7 @@ class Mock {
         if ($this->shouldPassedArgs) {
             if ($this->shouldPassedArgs !== $passed_arguments) {
                 throw new AssertionFailedException(
-                    self::createAssertionFaileMessage(
+                    self::createAssertionFailMessage(
                         self::mkString($this->shouldPassedArgs),
                         self::mkString($passed_arguments)
                     )
@@ -59,7 +59,7 @@ class Mock {
     }
 
 
-    private static function createAssertionFaileMessage($expected, $actual)
+    private static function createAssertionFailMessage($expected, $actual)
     {
         return "Failed asserting that $actual matches expected $expected.";
     }
