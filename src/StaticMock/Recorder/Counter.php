@@ -2,7 +2,9 @@
 namespace StaticMock\Recorder;
 
 
-class Counter {
+use StaticMock\Marker\Singleton;
+
+class Counter implements Singleton {
 
     private static $instance;
 

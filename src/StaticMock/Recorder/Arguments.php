@@ -4,7 +4,9 @@
 namespace StaticMock\Recorder;
 
 
-class Arguments {
+use StaticMock\Marker\Singleton;
+
+class Arguments implements Singleton {
 
     private static $instance;
 
