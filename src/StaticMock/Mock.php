@@ -28,6 +28,10 @@ class Mock {
 
     public function __construct($class_name)
     {
+        /*
+         * Get the information about the place where this instance was created
+         * for better error message.
+         */
         $bt = debug_backtrace();
         if (isset($bt[1])) {
             if (isset($bt[1]['file'])) {
@@ -74,6 +78,13 @@ class Mock {
     }
 
 
+    /**
+     * @param $expected
+     * @param $actual
+     * @param $file_instance_created
+     * @param $line_instance_created
+     * @return AssertionFailedException
+     */
     private function createAssertionFailException($expected, $actual, $file_instance_created, $line_instance_created)
     {
         $message = "Failed asserting that $actual matches expected $expected.";
@@ -87,6 +98,10 @@ class Mock {
         return $e;
     }
 
+    /**
+     * @param $method_name
+     * @return $this
+     */
     public function shouldReceive($method_name)
     {
         $this->method_name = $method_name;
@@ -95,41 +110,63 @@ class Mock {
         return $this;
     }
 
+    /**
+     * @param $return_value
+     */
     public function andReturn($return_value)
     {
         $impl = $this->fake->getImplementation($return_value);
         ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
     }
 
+    /**
+     * @param $count
+     * @return $this
+     */
     public function times($count)
     {
         $this->shouldCalledCount = $count;
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function once()
     {
         $this->shouldCalledCount = 1;
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function twice()
     {
         $this->shouldCalledCount = 2;
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function with()
     {
         $this->shouldPassedArgs = func_get_args();
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getCalledCount()
     {
         return $this->fake->count();
     }
 
+    /**
+     * @return array
+     */
     public function getPassedArguments()
     {
         return $this->fake->args();
