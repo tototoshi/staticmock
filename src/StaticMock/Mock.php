@@ -3,9 +3,9 @@
 namespace StaticMock;
 
 
-use MethodReplacer\ClassManager;
 use phpDocumentor\Reflection\Exception;
 use StaticMock\Exception\AssertionFailedException;
+use StaticMock\MethodReplacer\ClassManager;
 use StaticMock\Recorder\Arguments;
 use StaticMock\Recorder\Counter;
 

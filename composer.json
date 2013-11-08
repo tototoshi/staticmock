@@ -1,12 +1,10 @@
 {
     "name": "tototoshi/staticmock",
     "license": "BSD-3-Clause",
-    "require": {
-        "phpmethodreplacer/phpmethodreplacer": "0.2.1"
-    },
     "require-dev": {
         "phpunithelper/phpunithelper": "dev-master",
-        "phpunit/phpunit": "3.7.27"
+        "phpunit/phpunit": "3.7.27",
+        "herrera-io/runkit-hint": "dev-master"
     },
     "autoload": {
         "psr-0": { "StaticMock": ["src/", "test/"] }

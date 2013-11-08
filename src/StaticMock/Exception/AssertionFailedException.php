@@ -3,7 +3,10 @@
 
 namespace StaticMock\Exception;
 
-
+/**
+ * Class AssertionFailedException
+ * @package StaticMock\Exception
+ */
 class AssertionFailedException extends \RuntimeException {
 
     public function setFile($file)
