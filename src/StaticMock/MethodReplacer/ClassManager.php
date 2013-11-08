@@ -1,11 +1,12 @@
 <?php
 namespace StaticMock\MethodReplacer;
+use StaticMock\Marker\Singleton;
 
 /**
  * Class ClassManager
  * @package StaticMock\MethodReplacer
  */
-class ClassManager {
+class ClassManager implements Singleton {
 
     private static $instance = null;
 
