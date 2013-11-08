@@ -60,7 +60,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('ban!', $expected);
     }
 
-    public function testCalledAssertionThrowsExceptionWhenFailed()
+    public function testAssertionThrowsExceptionWhenFailed()
     {
         $mock = \StaticMock::mock('\StaticMock\Car');
         $mock->shouldReceive('beep')->times(2)->with(5);

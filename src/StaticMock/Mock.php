@@ -8,6 +8,7 @@ use StaticMock\Exception\AssertionFailedException;
 use StaticMock\MethodReplacer\ClassManager;
 use StaticMock\Recorder\Arguments;
 use StaticMock\Recorder\Counter;
+use StaticMock\Util\StringUtil;
 
 class Mock {
 
@@ -63,8 +64,8 @@ class Mock {
         if ($this->shouldPassedArgs) {
             if ($this->shouldPassedArgs !== $passed_arguments) {
                 throw $this->createAssertionFailException(
-                    self::mkString($this->shouldPassedArgs),
-                    self::mkString($passed_arguments),
+                    StringUtil::mkString($this->shouldPassedArgs),
+                    StringUtil::mkString($passed_arguments),
                     $this->file_instance_created,
                     $this->line_instance_created
                 );
@@ -84,10 +85,6 @@ class Mock {
             $e->setLine($line_instance_created);
         }
         return $e;
-    }
-
-    private static function mkString(array $a) {
-        return '(' . implode(', ', $a) . ')';
     }
 
     public function shouldReceive($method_name)
