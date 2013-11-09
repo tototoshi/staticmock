@@ -112,9 +112,16 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
         $gmock = StaticMock::mock('GooglePlusClient');
         $fmock = StaticMock::mock('FacebookClient');
-        $gmock->shouldReceive('getFeed')->once()->with('foo@example.com')->andReturn(array("From Google+"));
-        $fmock->shouldReceive('getFeed')->once()->with('foo@example.co')->andReturn(array("From Facebook"));
-
+        $gmock
+            ->shouldReceive('getFeed')
+            ->once()
+            ->with('foo@example.com')
+            ->andReturn(array("From Google+"));
+        $fmock
+            ->shouldReceive('getFeed')
+            ->once()
+            ->with('foo@example.co')
+            ->andReturn(array("From Facebook"));
         $this->assertEquals(array('From Google+', 'From Facebook'), $user->getFeed());
     }
 
