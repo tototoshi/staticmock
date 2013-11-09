@@ -4,7 +4,7 @@ namespace StaticMock\Util;
 
 class StringUtil {
 
-    public static function mkString(array $elements) {
+    public static function arrayToReadableString(array $elements) {
         $length = count($elements);
         $buf = '';
         for ($i = 0; $i < $length; $i++) {
@@ -16,7 +16,7 @@ class StringUtil {
                     $buf .= 'object';
                 }
             } else if (is_array($element)) {
-                $buf .= 'Array' . self::mkString($element);
+                $buf .= 'Array' . self::arrayToReadableString($element);
             } else {
                 $buf .= (string) $element;
             }
