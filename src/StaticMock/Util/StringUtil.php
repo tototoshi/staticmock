@@ -4,6 +4,10 @@ namespace StaticMock\Util;
 
 class StringUtil {
 
+    public static function methodArgsToReadableString(array $elements) {
+        return substr(self::arrayToReadableString($elements), 5);
+    }
+
     public static function arrayToReadableString(array $elements) {
         $buf = '';
 

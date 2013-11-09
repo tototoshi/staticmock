@@ -68,8 +68,8 @@ class Mock {
         if ($this->shouldPassedArgs) {
             if ($this->shouldPassedArgs !== $passed_arguments) {
                 throw $this->createAssertionFailException(
-                    StringUtil::arrayToReadableString($this->shouldPassedArgs),
-                    StringUtil::arrayToReadableString($passed_arguments),
+                    StringUtil::methodArgsToReadableString($this->shouldPassedArgs),
+                    StringUtil::methodArgsToReadableString($passed_arguments),
                     $this->file_instance_created,
                     $this->line_instance_created
                 );
