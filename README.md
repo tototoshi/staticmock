@@ -11,6 +11,13 @@ $mock
     ->andReturn('Something');
 ```
 
+## Motivation
+
+Mockery (https://github.com/padraic/mockery) provides nice interfaces to create mock objects. But as for static methods, Mockery needs an alias class and we can't create a mock object in one shot with his easy DSL.
+
+
+StaticMock provides Mockery-like DSL for static methods. StaticMock depends on runkit extension and rewrites static methods temporary at run-time.
+
 ## Requirements
 
  - PHP >=5.3
@@ -29,92 +36,159 @@ composer.json
 ```
 
 ## Example
+### Stubing and Mocking
 
 ```php
-<?php
-require 'vendor/autoload.php';
-
-
-class UserRepository
-{
-
-    public static function find($id)
-    {
-        $users = array(
-            new User('John'),
-            new User('Paul'),
-            new User('George'),
-            new User('Ringo')
-        );
-        return $users[$id];
-    }
-
-
-}
 
 class User
 {
-    private $name;
 
-    function __construct($name)
+    private $email;
+
+    public function __construct($email)
     {
-        $this->name = $name;
+        $this->email = $email;
     }
 
-    public function setName($name)
+
+    public function getFeed()
     {
-        $this->name = $name;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-}
-
-class UserService
-{
-
-    public static function getSomeone($id)
-    {
-        return UserRepository::find($id);
+        $g_feed = GooglePlusClient::getFeed($this->email);
+        $f_feed = FacebookClient::getFeed($this->email);
+        return array_merge($g_feed, $f_feed);
     }
 
 }
 
 
-function test0()
+
+class GooglePlusClient
 {
-    $arg_id = 1;
-    $actual = UserService::getSomeone($arg_id);
-    assert($actual->getName() == 'Paul');
+
+    public static function getFeed($email)
+    {
+        // send request to Google
+    }
 }
 
-function test1()
+
+class FacebookClient
 {
-    $mock = StaticMock::mock('UserRepository');
-    $arg_id = 1;
-    $mock->shouldReceive('find')->with($arg_id)->times(1)->andReturn(new User('Eric'));
-    $actual = UserService::getSomeone($arg_id);
-    assert($actual->getName() == 'Eric');
+
+    public static function getFeed($email)
+    {
+        // send request to Facebook
+    }
 }
 
-function test2()
+
+```
+```php
+
+class UserTest extends \PHPUnit_Framework_TestCase
 {
-    $mock = StaticMock::mock('UserRepository');
-    $arg_id = 1;
-    $mock->shouldReceive('find')->once()->andReturn('Eric');
-    UserService::getSomeone($arg_id);
-    UserService::getSomeone($arg_id);
+
+    public function testGetFeed()
+    {
+        $gmock = StaticMock::mock('GooglePlusClient');
+        $fmock = StaticMock::mock('FacebookClient');
+        $gmock->shouldReceive('getFeed')->andReturn(array("From Google+"));
+        $fmock->shouldReceive('getFeed')->andReturn(array("From Facebook"));
+
+        $user = new User('foo@example.com');
+        $this->assertEquals(array('From Google+', 'From Facebook'), $user->getFeed());
+    }
+
+}
+```
+
+```php
+class UserTest extends \PHPUnit_Framework_TestCase
+{
+
+    public function testGetFeed()
+    {
+        $user = new User('foo@example.com');
+
+        $gmock = StaticMock::mock('GooglePlusClient');
+        $fmock = StaticMock::mock('FacebookClient');
+        $gmock->shouldReceive('getFeed')->once()->with('foo@example.com')->andReturn(array("From Google+"));
+        $fmock->shouldReceive('getFeed')->once()->with('foo@example.co')->andReturn(array("From Facebook"));
+
+        $this->assertEquals(array('From Google+', 'From Facebook'), $user->getFeed());
+    }
+
+}
+```
+
+### Replacing method implementation
+
+```php
+class User
+{
+
+    private $email;
+
+    public function __construct($email)
+    {
+        $this->email = $email;
+    }
+
+    public function register()
+    {
+        $this->save();
+        Mailer::send($this->email, 'Welcome to StaticMock');
+    }
+
+
+    private function save()
+    {
+        echo 'save!';
+    }
+
 }
 
-test0();
-test1();
 
-try {
-    test2();
-} catch (\StaticMock\Exception\AssertionFailedException $e) {
-    print $e->getMessage(); // Failed asserting that 1 matches expected 2.
+class Mailer
+{
+
+    public static function send($email, $body)
+    {
+        // send mail
+        echo 'sending email...';
+    }
+
+}
+
+```
+
+```php
+class UserTest extends \PHPUnit_Framework_TestCase
+{
+
+    public function testRegister()
+    {
+        $user = new User('foo@example.com');
+        $user->register();
+        // ....
+    }
+
+}
+```
+
+```php
+class UserTest extends \PHPUnit_Framework_TestCase
+{
+
+    public function testRegister2()
+    {
+        $mock = StaticMock::mock('Mailer');
+        $mock->shouldReceive('send')->andReturn(function () {
+            echo "doesn't send email";
+        });
+
+        $user = new User('foo@example.com');
+        $user->register();
+    }
 }
 ```
