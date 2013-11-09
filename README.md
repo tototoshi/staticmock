@@ -22,8 +22,8 @@ composer.json
 
 ```js
 {
-    "require": {
-        "tototoshi/staticmock": "0.2.0"
+    "require-dev": {
+        "tototoshi/staticmock": "1.x-dev"
     }
 }
 ```
