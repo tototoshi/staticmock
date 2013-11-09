@@ -11,10 +11,12 @@ class StringUtil {
             $element = $elements[$i];
             if (is_object($element)) {
                 if (method_exists($element, '__toString')) {
-                    $buf .= $element;
+                    $buf .= (string) $element;
                 } else {
                     $buf .= 'object';
                 }
+            } else if (is_array($element)) {
+                $buf .= 'Array' . self::mkString($element);
             } else {
                 $buf .= (string) $element;
             }
