@@ -92,7 +92,7 @@ class FacebookClient
 The problem is `GooglePlusClient::getFeed` and `FacebookClient::getFeed` are static methods. If they were instace methods, we could manage their dependencies and inject stubs of them to `User` class. But since they are static methods, we can't do that.
 
 
-`StaticMock` solved the proble by replacing the methods temporary at run-time. It provides the easy DSL for replacing methods. All you need to learn is only a few methods.
+`StaticMock` solved the problem by replacing the methods temporary at run-time. It provides the easy DSL for replacing methods. All you need to learn is only a few methods.
 
   - Declare the methods we want to replace with `StaticMock::mock` and `shouldReceive`.
   - The return value of the method is defined with `andReturn`.
@@ -176,6 +176,10 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 ### Replacing method implementation
 
+`andReturn` are useful not only to define the return value but also to change the behavior of the method.
+
+See below again. We are writing a test for `User::register` this time but we don't want to send email every time running the test.
+
 ```php
 class User
 {
@@ -208,26 +212,14 @@ class Mailer
     public static function send($email, $body)
     {
         // send mail
-        echo 'sending email...';
     }
 
 }
 
 ```
 
-```php
-class UserTest extends \PHPUnit_Framework_TestCase
-{
+Pass an anonymous function like below. Email will not be sent and only a short line will be printed on your console.
 
-    public function testRegister()
-    {
-        $user = new User('foo@example.com');
-        $user->register();
-        // ....
-    }
-
-}
-```
 
 ```php
 class UserTest extends \PHPUnit_Framework_TestCase
@@ -237,7 +229,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $mock = StaticMock::mock('Mailer');
         $mock->shouldReceive('send')->andReturn(function () {
-            echo "doesn't send email";
+            echo "send email";
         });
 
         $user = new User('foo@example.com');
