@@ -52,7 +52,6 @@ class User
         $this->email = $email;
     }
 
-
     public function getFeed()
     {
         $g_feed = GooglePlusClient::getFeed($this->email, 1);
@@ -163,8 +162,12 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFeed()
     {
-        StaticMock::mock('GooglePlusClient')->shouldReceive('getFeed')->andReturn(array("From Google+"));
-        StaticMock::mock('FacebookClient')->shouldReceive('getFeed')->andReturn(array("From Facebook"));
+        StaticMock::mock('GooglePlusClient')
+            ->shouldReceive('getFeed')
+            ->andReturn(array("From Google+"));
+        StaticMock::mock('FacebookClient')
+            ->shouldReceive('getFeed')
+           ->andReturn(array("From Facebook"));
         $user = new User('foo@example.com');
         $this->assertEquals(array('From Google+', 'From Facebook'), $user->getFeed());
     }
@@ -196,7 +199,6 @@ class User
         $this->save();
         Mailer::send($this->email, 'Welcome to StaticMock');
     }
-
 
     private function save()
     {
@@ -235,5 +237,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user = new User('foo@example.com');
         $user->register();
     }
+
 }
 ```
