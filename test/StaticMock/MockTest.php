@@ -41,6 +41,12 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('ban!', $expected);
     }
 
+    public function testNever()
+    {
+        $mock = \StaticMock::mock('StaticMock\Car');
+        $mock->shouldReceive('beep')->never()->andReturn('ban!');
+    }
+
     public function testOnce()
     {
         $mock = \StaticMock::mock('StaticMock\Car');

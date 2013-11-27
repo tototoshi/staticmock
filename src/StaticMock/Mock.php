@@ -132,10 +132,17 @@ class Mock {
     /**
      * @return $this
      */
+    public function never()
+    {
+        return $this->times(0);
+    }
+
+    /**
+     * @return $this
+     */
     public function once()
     {
-        $this->shouldCalledCount = 1;
-        return $this;
+        return $this->times(1);
     }
 
     /**
@@ -143,8 +150,7 @@ class Mock {
      */
     public function twice()
     {
-        $this->shouldCalledCount = 2;
-        return $this;
+        return $this->times(2);
     }
 
     /**
