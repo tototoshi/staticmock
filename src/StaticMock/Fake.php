@@ -49,22 +49,24 @@ class Fake {
         return $this->_hash;
     }
 
-    public function getImplementation($return_value)
+    public function getImplementation($implementation)
     {
         $that = $this;
-        if ($return_value instanceof \Closure) {
-            return function () use ($return_value, $that) {
-                Counter::getInstance()->increment($that->hash());
-                Arguments::getInstance()->record($that->hash(), func_get_args());
-                return call_user_func_array($return_value, func_get_args());
-            };
-        } else {
-            return function () use ($return_value, $that) {
-                Counter::getInstance()->increment($that->hash());
-                Arguments::getInstance()->record($that->hash(), func_get_args());
-                return $return_value;
-            };
-        }
+        return function () use ($implementation, $that) {
+            Counter::getInstance()->increment($that->hash());
+            Arguments::getInstance()->record($that->hash(), func_get_args());
+            return call_user_func_array($implementation, func_get_args());
+        };
+    }
+
+    public function getConstantImplementation($return_value)
+    {
+        $that = $this;
+        return function () use ($return_value, $that) {
+            Counter::getInstance()->increment($that->hash());
+            Arguments::getInstance()->record($that->hash(), func_get_args());
+            return $return_value;
+        };
     }
 
     public function count()

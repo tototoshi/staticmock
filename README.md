@@ -179,7 +179,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 ### Replacing method implementation
 
-`andReturn` are useful not only to define the return value but also to change the behavior of the method.
+`andImplement` are useful to change the behavior of the method.
 
 See below again. We are writing a test for `User::register` this time but we don't want to send email every time running the test.
 

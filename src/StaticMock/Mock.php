@@ -135,7 +135,7 @@ class Mock {
     public function shouldReceive($method_name)
     {
         $this->method_name = $method_name;
-        $impl = $this->fake->getImplementation(null);
+        $impl = $this->fake->getConstantImplementation(null);
         ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
         return $this;
     }
@@ -145,7 +145,20 @@ class Mock {
      */
     public function andReturn($return_value)
     {
-        $impl = $this->fake->getImplementation($return_value);
+        $impl = $this->fake->getConstantImplementation($return_value);
+        ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
+    }
+
+    /**
+     * @param $implementation
+     * @throws \InvalidArgumentException
+     */
+    public function andImplement($implementation)
+    {
+        if (! $implementation instanceof \Closure) {
+            throw new \InvalidArgumentException("arguments should be a Closure");
+        }
+        $impl = $this->fake->getImplementation($implementation);
         ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
     }
 
