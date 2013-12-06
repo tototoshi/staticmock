@@ -230,7 +230,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testRegister2()
     {
         $mock = StaticMock::mock('Mailer');
-        $mock->shouldReceive('send')->andReturn(function () {
+        $mock->shouldReceive('send')->andImplement(function () {
             echo "send email";
         });
 
