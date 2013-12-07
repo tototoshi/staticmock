@@ -240,3 +240,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 }
 ```
+
+## LICENSE
+
+BSD 3-Clause
