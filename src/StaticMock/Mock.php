@@ -142,16 +142,19 @@ class Mock {
 
     /**
      * @param $return_value
+     * @return $this;
      */
     public function andReturn($return_value)
     {
         $impl = $this->fake->getConstantImplementation($return_value);
         ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
+        return $this;
     }
 
     /**
      * @param $implementation
      * @throws \InvalidArgumentException
+     * @return $this
      */
     public function andImplement($implementation)
     {
@@ -160,6 +163,7 @@ class Mock {
         }
         $impl = $this->fake->getImplementation($implementation);
         ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
+        return $this;
     }
 
     /**

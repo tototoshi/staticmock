@@ -13,10 +13,17 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $mock->getCalledCount());
     }
 
-    public function testMockCreation()
+    public function testMockConstruction()
     {
         $mock = \StaticMock::mock('StaticMock\Car');
-        $mock->shouldReceive('boo')->times(1);
+        $mock->shouldReceive('boo')->times(1)->andReturn(true);
+        $p = new Person();
+        $p->drive();
+    }
+
+    public function testMockConstruction2()
+    {
+        $mock = \StaticMock::mock('StaticMock\Car')->shouldReceive('boo')->times(1)->andReturn(true);
         $p = new Person();
         $p->drive();
     }
