@@ -6,7 +6,7 @@ class BadUsageTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldReceiveCalledTwice()
     {
-        $this->setExpectedException('\RuntimeException');
+        $this->setExpectedException('\StaticMock\Exception\BadUsageException');
 
         $mock = \StaticMock::mock('StaticMock\Car');
         $mock->shouldReceive('boo');
@@ -15,7 +15,7 @@ class BadUsageTest extends \PHPUnit_Framework_TestCase
 
     public function testTimesNotCalled()
     {
-        $this->setExpectedException('\StaticMock\Exception\AssertionFailedException');
+        $this->setExpectedException('StaticMock\Exception\AssertionFailedException');
 
         $mock = \StaticMock::mock('\StaticMock\Car');
         $mock->shouldReceive('beep');
@@ -24,7 +24,7 @@ class BadUsageTest extends \PHPUnit_Framework_TestCase
 
     public function testTimesCalledTwice()
     {
-        $this->setExpectedException('\RuntimeException');
+        $this->setExpectedException('\StaticMock\Exception\BadUsageException');
 
         $mock = \StaticMock::mock('\StaticMock\Car');
         $mock->shouldReceive('beep')->times(2)->times(1)->with(5);
@@ -35,7 +35,7 @@ class BadUsageTest extends \PHPUnit_Framework_TestCase
 
     public function testAndReturnCalledTwice()
     {
-        $this->setExpectedException('\RuntimeException');
+        $this->setExpectedException('\StaticMock\Exception\BadUsageException');
 
         $mock = \StaticMock::mock('\StaticMock\Car');
         $mock->shouldReceive('beep')->times(1)->with(1)->andReturn(1)->andReturn(2);
@@ -46,7 +46,7 @@ class BadUsageTest extends \PHPUnit_Framework_TestCase
 
     public function testMethodReplacedTwice()
     {
-        $this->setExpectedException('\RuntimeException');
+        $this->setExpectedException('\StaticMock\Exception\BadUsageException');
 
         $mock1 = \StaticMock::mock('StaticMock\Car');
         $mock1->shouldReceive('beep')->times(1)->with(1)->andReturn(2);

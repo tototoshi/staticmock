@@ -35,10 +35,12 @@ namespace StaticMock;
 
 use phpDocumentor\Reflection\Exception;
 use StaticMock\Exception\AssertionFailedException;
+use StaticMock\Exception\BadUsageException;
 use StaticMock\MethodReplacer\ClassManager;
 use StaticMock\Recorder\Arguments;
 use StaticMock\Recorder\Counter;
 use StaticMock\Util\StringUtil;
+use Symfony\Component\Yaml\Exception\RuntimeException;
 
 class Mock {
 
@@ -55,6 +57,10 @@ class Mock {
     private $file_instance_created;
 
     private $line_instance_created;
+
+    private $fake_implementation;
+
+    private $do_assertion = true;
 
     public function __construct($class_name)
     {
@@ -84,29 +90,39 @@ class Mock {
         Counter::getInstance()->clear($this->fake->hash());
         Arguments::getInstance()->clear($this->fake->hash());
 
-        if ($this->shouldCalledCount) {
-            if ($this->shouldCalledCount !== $called_count) {
+        if (!$this->do_assertion) {
+            return;
+        }
+
+        if ($this->shouldCalledCount === null) {
+            if ($called_count == 0) {
                 throw $this->createAssertionFailException(
+                    "`{$this->method_name}` should be called at least once."
+                );
+            }
+        } else {
+            if ($this->shouldCalledCount !== $called_count) {
+                throw $this->createAssertionFailedExceptionFromExpectedValueAndActualValue(
                     $called_count,
-                    $this->shouldCalledCount,
-                    $this->file_instance_created,
-                    $this->line_instance_created
+                    $this->shouldCalledCount
                 );
             }
         }
 
         if ($this->shouldPassedArgs) {
             if ($this->shouldPassedArgs !== $passed_arguments) {
-                throw $this->createAssertionFailException(
+                throw $this->createAssertionFailedExceptionFromExpectedValueAndActualValue(
                     StringUtil::methodArgsToReadableString($this->shouldPassedArgs),
-                    StringUtil::methodArgsToReadableString($passed_arguments),
-                    $this->file_instance_created,
-                    $this->line_instance_created
+                    StringUtil::methodArgsToReadableString($passed_arguments)
                 );
             }
         }
     }
 
+    private function isAlreadyBuilt()
+    {
+        return $this->fake_implementation !== null;
+    }
 
     /**
      * @param $expected
@@ -115,17 +131,22 @@ class Mock {
      * @param $line_instance_created
      * @return AssertionFailedException
      */
-    private function createAssertionFailException($expected, $actual, $file_instance_created, $line_instance_created)
+    private function createAssertionFailException($message)
     {
-        $message = "Failed asserting that $actual matches expected $expected.";
         $e = new AssertionFailedException($message);
-        if ($file_instance_created) {
-            $e->setFile($file_instance_created);
+        if ($this->file_instance_created) {
+            $e->setFile($this->file_instance_created);
         }
-        if ($line_instance_created) {
-            $e->setLine($line_instance_created);
+        if ($this->line_instance_created) {
+            $e->setLine($this->line_instance_created);
         }
         return $e;
+    }
+
+    private function createAssertionFailedExceptionFromExpectedValueAndActualValue($expected, $actual)
+    {
+        $message = "Failed asserting that $actual matches expected $expected.";
+        return $this->createAssertionFailException($message);
     }
 
     /**
@@ -134,8 +155,24 @@ class Mock {
      */
     public function shouldReceive($method_name)
     {
+        if ($this->isAlreadyBuilt()) {
+            $this->do_assertion = false;
+            throw new BadUsageException("Mock object is Already built.");
+        }
+        if ($this->method_name !== null) {
+            $this->do_assertion = false;
+            throw new BadUsageException("`shouldReceive` should not be called twice.");
+        }
         $this->method_name = $method_name;
         $impl = $this->fake->getConstantImplementation(null);
+
+
+
+        if (ClassManager::getInstance()->getManagedClassOrNewOne($this->class_name)->getMethod($this->method_name) !== null) {
+            $this->do_assertion = false;
+            throw new BadUsageException("`shouldReceive` should not be called twice.");
+        }
+
         ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
         return $this;
     }
@@ -146,8 +183,20 @@ class Mock {
      */
     public function andReturn($return_value)
     {
-        $impl = $this->fake->getConstantImplementation($return_value);
-        ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
+        if ($this->method_name === null) {
+            $this->do_assertion = false;
+            throw new BadUsageException("`shouldReceive` should be called before `andReturn`.");
+        }
+        if ($this->isAlreadyBuilt()) {
+            $this->do_assertion = false;
+            throw new BadUsageException("Mock object is Already built.");
+        }
+        $this->fake_implementation = $this->fake->getConstantImplementation($return_value);
+        ClassManager::getInstance()->register(
+            $this->class_name,
+            $this->method_name,
+            $this->fake_implementation
+        );
         return $this;
     }
 
@@ -161,8 +210,20 @@ class Mock {
         if (! $implementation instanceof \Closure) {
             throw new \InvalidArgumentException("arguments should be a Closure");
         }
-        $impl = $this->fake->getImplementation($implementation);
-        ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
+        if ($this->method_name === null) {
+            $this->do_assertion = false;
+            throw new BadUsageException("`shouldReceive` should be called before `andImplement`.");
+        }
+        if ($this->isAlreadyBuilt()) {
+            $this->do_assertion = false;
+            throw new BadUsageException("Mock object is Already built.");
+        }
+        $this->fake_implementation = $this->fake->getImplementation($implementation);
+        ClassManager::getInstance()->register(
+            $this->class_name,
+            $this->method_name,
+            $this->fake_implementation
+        );
         return $this;
     }
 
@@ -172,6 +233,10 @@ class Mock {
      */
     public function times($count)
     {
+        if ($this->shouldCalledCount !== null) {
+            $this->do_assertion = false;
+            throw new BadUsageException("`times`, `never`, `once`, `twice` should not be called twice");
+        }
         $this->shouldCalledCount = $count;
         return $this;
     }
@@ -205,6 +270,10 @@ class Mock {
      */
     public function with()
     {
+        if ($this->shouldPassedArgs !== null) {
+            $this->do_assertion = false;
+            throw new BadUsageException("`with` should not be called twice");
+        }
         $this->shouldPassedArgs = func_get_args();
         return $this;
     }
