@@ -9,6 +9,7 @@ $mock
     ->with(1)
     ->once()
     ->andReturn('Something');
+$mock->assert();
 ```
 
 ## Motivation
@@ -143,6 +144,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
             ->with('foo@example.co', 1)
             ->andReturn(array("From Facebook"));
         $this->assertEquals(array('From Google+', 'From Facebook'), $user->getFeed());
+        $gmock->assert();
+        $fmock->assert();
     }
 
 }
@@ -240,6 +243,24 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 }
 ```
+
+## With PHPUnit
+
+You can easily define custom PHPUnit assertion. See below.
+
+
+```php
+class WithPHPUnitTest extends \PHPUnit_Framework_TestCase
+{
+
+    public function assertStaticMock(Mock $mock)
+    {
+        $this->assertThat($mock, new \StaticMock\PHPUnit\StaticMockConstraint);
+    }
+
+}
+```
+
 
 ## LICENSE
 

@@ -87,45 +87,39 @@ class Mock {
         $called_count = $this->getCalledCount();
         $passed_arguments = $this->getPassedArguments();
 
-        if ($this->shouldCalledCount) {
+        if ($this->shouldCalledCount !== null) {
             if ($this->shouldCalledCount !== $called_count) {
                 throw $this->createAssertionFailException(
-                    $called_count,
-                    $this->shouldCalledCount,
-                    $this->file_instance_created,
-                    $this->line_instance_created
+                    "Mocked method should be called {$this->shouldCalledCount} times but called {$called_count} times"
                 );
             }
         }
 
-        if ($this->shouldPassedArgs) {
+        if ($this->shouldPassedArgs !== null) {
             if ($this->shouldPassedArgs !== $passed_arguments) {
+                $expected = StringUtil::methodArgsToReadableString($this->shouldPassedArgs);
+                $actual = StringUtil::methodArgsToReadableString($passed_arguments);
                 throw $this->createAssertionFailException(
-                    StringUtil::methodArgsToReadableString($this->shouldPassedArgs),
-                    StringUtil::methodArgsToReadableString($passed_arguments),
-                    $this->file_instance_created,
-                    $this->line_instance_created
+                    "Mocked method should be called with $expected but called with {$actual}"
                 );
             }
         }
     }
 
     /**
-     * @param $expected
-     * @param $actual
+     * @param string $message
      * @param $file_instance_created
      * @param $line_instance_created
      * @return AssertionFailedException
      */
-    private function createAssertionFailException($expected, $actual, $file_instance_created, $line_instance_created)
+    private function createAssertionFailException($message)
     {
-        $message = "Failed asserting that $actual matches expected $expected.";
         $e = new AssertionFailedException($message);
-        if ($file_instance_created) {
-            $e->setFile($file_instance_created);
+        if ($this->file_instance_created) {
+            $e->setFile($this->file_instance_created);
         }
-        if ($line_instance_created) {
-            $e->setLine($line_instance_created);
+        if ($this->line_instance_created) {
+            $e->setLine($this->line_instance_created);
         }
         return $e;
     }
