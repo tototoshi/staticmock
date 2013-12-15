@@ -11,6 +11,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $p = new Person();
         $p->drive();
         $this->assertEquals(1, $mock->getCalledCount());
+        $mock->assert();
     }
 
     public function testMockConstruction()
@@ -19,6 +20,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock->shouldReceive('boo')->times(1)->andReturn(true);
         $p = new Person();
         $p->drive();
+        $mock->assert();
     }
 
     public function testMockConstruction2()
@@ -26,6 +28,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock = \StaticMock::mock('StaticMock\Car')->shouldReceive('boo')->times(1)->andReturn(true);
         $p = new Person();
         $p->drive();
+        $mock->assert();
     }
 
     public function testArgs()
@@ -37,6 +40,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $p->warn(5);
         $this->assertEquals(1, $mock->getCalledCount());
         $this->assertEquals(array(5), $mock->getPassedArguments());
+        $mock->assert();
     }
 
     public function testAssertions()
@@ -46,12 +50,14 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $p = new Person();
         $expected = $p->warn(5);
         $this->assertEquals('ban!', $expected);
+        $mock->assert();
     }
 
     public function testNever()
     {
         $mock = \StaticMock::mock('StaticMock\Car');
         $mock->shouldReceive('beep')->never()->andReturn('ban!');
+        $mock->assert();
     }
 
     public function testOnce()
@@ -61,6 +67,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $p = new Person();
         $expected = $p->warn(5);
         $this->assertEquals('ban!', $expected);
+        $mock->assert();
     }
 
     public function testTwice()
@@ -71,6 +78,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $expected = $p->warn(5);
         $expected = $p->warn(5);
         $this->assertEquals('ban!', $expected);
+        $mock->assert();
     }
 
     public function testAssertionThrowsExceptionWhenFailed()
@@ -81,6 +89,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\StaticMock\Exception\AssertionFailedException');
         $p = new Person();
         $p->warn(5);
+        $mock->assert();
     }
 
     public function testPassedArgsAssertionThrowsExceptionWhenFailed()
@@ -90,6 +99,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\StaticMock\Exception\AssertionFailedException');
         $p = new Person();
         $p->warn(4);
+        $mock->assert();
     }
 
     public function testAndReturn()
@@ -98,6 +108,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock->shouldReceive('beep')->times(1)->andReturn('BEEP!');
         $p = new Person();
         $this->assertEquals('BEEP!', $p->warn(5));
+        $mock->assert();
     }
 
     public function testAndReturnWithAnonymousFunction()
@@ -108,6 +119,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $p = new Person();
         $actual = $p->warn(5);
         $this->assertEquals(15, $actual);
+        $mock->assert();
     }
 
 }

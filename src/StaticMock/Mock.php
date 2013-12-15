@@ -77,12 +77,15 @@ class Mock {
 
     public function __destruct()
     {
-        $called_count = $this->getCalledCount();
-        $passed_arguments = $this->getPassedArguments();
-
         ClassManager::getInstance()->deregister($this->class_name, $this->method_name);
         Counter::getInstance()->clear($this->fake->hash());
         Arguments::getInstance()->clear($this->fake->hash());
+    }
+
+    public function assert()
+    {
+        $called_count = $this->getCalledCount();
+        $passed_arguments = $this->getPassedArguments();
 
         if ($this->shouldCalledCount) {
             if ($this->shouldCalledCount !== $called_count) {
@@ -106,7 +109,6 @@ class Mock {
             }
         }
     }
-
 
     /**
      * @param $expected
