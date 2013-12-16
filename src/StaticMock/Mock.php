@@ -56,6 +56,8 @@ class Mock {
 
     private $line_instance_created;
 
+    private $assertion_done = false;
+
     public function __construct($class_name)
     {
         /*
@@ -80,10 +82,20 @@ class Mock {
         ClassManager::getInstance()->deregister($this->class_name, $this->method_name);
         Counter::getInstance()->clear($this->fake->hash());
         Arguments::getInstance()->clear($this->fake->hash());
+
+        if ((! $this->assertion_done) && ($this->shouldCalledCount !== null || $this->shouldPassedArgs !== null)) {
+            error_log(
+                "Some expectations are set but Mock::assert() has not been called. " .
+                "The instance is created at file={$this->file_instance_created}, " .
+                "line={$this->line_instance_created}."
+            );
+        }
     }
 
     public function assert()
     {
+        $this->assertion_done = true;
+
         $called_count = $this->getCalledCount();
         $passed_arguments = $this->getPassedArguments();
 
