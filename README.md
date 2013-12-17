@@ -250,6 +250,8 @@ You can easily define custom PHPUnit assertion. See below.
 
 
 ```php
+use StaticMock\Mock;
+
 class WithPHPUnitTest extends \PHPUnit_Framework_TestCase
 {
 
