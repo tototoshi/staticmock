@@ -251,13 +251,14 @@ You can easily define custom PHPUnit assertion. See below.
 
 ```php
 use StaticMock\Mock;
+use StaticMock\PHPUnit\StaticMockConstraint;
 
 class WithPHPUnitTest extends \PHPUnit_Framework_TestCase
 {
 
     public function assertStaticMock(Mock $mock)
     {
-        $this->assertThat($mock, new \StaticMock\PHPUnit\StaticMockConstraint);
+        $this->assertThat($mock, new StaticMockConstraint);
     }
 
 }
