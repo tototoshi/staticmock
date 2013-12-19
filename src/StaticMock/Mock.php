@@ -75,6 +75,7 @@ class Mock {
         }
         $this->fake = new Fake();
         $this->class_name = $class_name;
+
     }
 
     public function __destruct()
@@ -108,17 +109,35 @@ class Mock {
         }
 
         if ($this->shouldPassedArgs !== null) {
-            if ($this->shouldPassedArgs !== $passed_arguments) {
-                $expected = StringUtil::methodArgsToReadableString($this->shouldPassedArgs);
-                $actual = StringUtil::methodArgsToReadableString($passed_arguments);
-                throw $this->createAssertionFailException(
-                    "Mocked method should be called with $expected but called with {$actual}"
-                );
+
+            if (count($this->shouldPassedArgs) === max(array_keys($passed_arguments)) + 1) {
+
+                if ($this->shouldPassedArgs !== $passed_arguments) {
+                    $expected = StringUtil::methodArgsToReadableString($this->shouldPassedArgs);
+                    $actual = StringUtil::methodArgsToReadableString($passed_arguments);
+                    throw $this->createAssertionFailException(
+                        "Mocked method should be called with $expected but called with {$actual}"
+                    );
+                }
+
+            } else {
+                foreach ($passed_arguments as $k => $v) {
+                    if (array_key_exists($k, $this->shouldPassedArgs)) {
+                        $expected = $this->shouldPassedArgs[$k];
+                        $index = $k + 1;
+                        $actual = $passed_arguments[$k];
+                        if ($expected !== $actual) {
+                            throw $this->createAssertionFailException(
+                                "Mocked method should be called with $expected as the {$index}th argument but called with {$actual}"
+                            );
+                        }
+                    }
+                }
             }
         }
     }
 
-    /**
+            /**
      * @param string $message
      * @param $file_instance_created
      * @param $line_instance_created
@@ -214,6 +233,18 @@ class Mock {
     public function with()
     {
         $this->shouldPassedArgs = func_get_args();
+        return $this;
+    }
+
+    public function withNthArg($n, $arg)
+    {
+        if (! is_int($n) || $n < 1) {
+            throw new \InvalidArgumentException('first argument of ::withNthArgs must be a positive int.');
+        }
+        if (is_null($this->shouldPassedArgs)) {
+            $this->shouldPassedArgs = array();
+        }
+        $this->shouldPassedArgs[$n - 1] = $arg;
         return $this;
     }
 

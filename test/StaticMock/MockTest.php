@@ -1,6 +1,8 @@
 <?php
 namespace StaticMock;
 
+use StaticMock\Exception\AssertionFailedException;
+
 class MockTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -41,6 +43,26 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $mock->getCalledCount());
         $this->assertEquals(array(5), $mock->getPassedArguments());
         $mock->assert();
+    }
+
+    public function testPartialArgs_Success()
+    {
+        $mock = \StaticMock::mock('StaticMock\Person');
+        $mock->shouldReceive('eat')->withNthArg(3, null)->withNthArg(2, '2')->withNthArg(1, 1);
+        Person::eat(1, '2', null, new \DateTime());
+        $mock->assert();
+    }
+
+    public function testPartialArgs_Fail()
+    {
+        try {
+            $mock = \StaticMock::mock('StaticMock\Person');
+            $mock->shouldReceive('eat')->withNthArg(3, 3)->withNthArg(1, 1)->withNthArg(2, 100);
+            Person::eat(1, 2, 3, 4);
+            $mock->assert();
+        } catch (AssertionFailedException $e) {
+            $this->assertEquals('Mocked method should be called with 100 as the 2th argument but called with 2', $e->getMessage());
+        }
     }
 
     public function testAssertions()

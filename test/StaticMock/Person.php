@@ -14,4 +14,8 @@ class Person {
         return Car::beep($times);
     }
 
+    public static function eat($rice, $meat, $vegetable, $fish)
+    {
+    }
+
 }
