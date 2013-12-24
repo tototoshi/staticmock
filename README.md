@@ -31,7 +31,7 @@ composer.json
 ```js
 {
     "require-dev": {
-        "tototoshi/staticmock": "1.2.1"
+        "tototoshi/staticmock": "1.2.2"
     }
 }
 ```
