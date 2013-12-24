@@ -110,7 +110,7 @@ class Mock {
 
         if ($this->shouldPassedArgs !== null) {
 
-            if (count($this->shouldPassedArgs) === max(array_keys($passed_arguments)) + 1) {
+            if (count($passed_arguments) === 0 || count($this->shouldPassedArgs) === max(array_keys($passed_arguments)) + 1) {
 
                 if ($this->shouldPassedArgs !== $passed_arguments) {
                     $expected = StringUtil::methodArgsToReadableString($this->shouldPassedArgs);
