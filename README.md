@@ -24,6 +24,15 @@ StaticMock provides Mockery-like DSL for static methods. StaticMock depends on r
  - PHP >=5.3
  - runkit >=1.0.3
 
+To install runkit, execute the following commands and add `extension=runkit.so` to php.ini.
+
+```
+cd /tmp
+git clone https://github.com/zenovich/runkit.git
+cd runkit
+pecl install package.xml
+```
+
 ## Install
 
 composer.json
