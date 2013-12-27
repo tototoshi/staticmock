@@ -130,7 +130,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 `StaticMock` also has some methods to act as mock object.
 
  - `never()`, `once()`, `twice()` and `times($times)` are used to check how many times they are called.
- - `with` are used to check what arguments are passed when they are called.
+ - `with` and `withNthArg` are used to check what arguments are passed when they are called.
 
 ```php
 class UserTest extends \PHPUnit_Framework_TestCase
