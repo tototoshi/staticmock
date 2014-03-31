@@ -6,5 +6,5 @@ php:
   - hhvm 
 
 before_script:
-  - "pushd /tmp && git clone https://github.com/php/pecl-php-runkit.git && pushd runkit && pecl install package.xml && popd && popd"
+  - "pushd /tmp && git clone https://github.com/php/pecl-php-runkit.git && pushd pecl-php-runkit && pecl install package.xml && popd && popd"
   - composer install
