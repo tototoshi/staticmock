@@ -6,5 +6,12 @@ php:
   - 5.3
 
 before_script:
-  - "pushd /tmp && git clone https://github.com/zenovich/runkit.git && pushd runkit && pecl install package.xml && popd && popd"
+  - gcc -v
+  - pushd /tmp
+  - git clone https://github.com/tototoshi/runkit.git
+  - pushd runkit
+  - if php -v | head -1 | grep '^PHP 5.6' > /dev/null; then git checkout -t -b feature/for-php-5.6.0RC1 origin/feature/for-php-5.6.0RC1; fi
+  - pecl install package.xml
+  - popd
+  - popd
   - composer install
