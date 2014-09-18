@@ -240,7 +240,7 @@ Pass an anonymous function like below. Email will not be sent and only a short l
 class UserTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testRegister2()
+    public function testRegister()
     {
         $mock = StaticMock::mock('Mailer');
         $mock->shouldReceive('send')->andImplement(function () {
