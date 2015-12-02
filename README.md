@@ -175,8 +175,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         StaticMock::mock('GooglePlusClient')
             ->shouldReceive('getFeed')
             ->andReturn(array("From Google+"));
-        StaticMock::mock('FacebookClient')
-            ->shouldReceive('getFeed')
+        StaticMock::mock('FacebookClient::getFeed')
            ->andReturn(array("From Facebook"));
         $user = new User('foo@example.com');
         $this->assertEquals(array('From Google+', 'From Facebook'), $user->getFeed());
