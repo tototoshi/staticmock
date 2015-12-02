@@ -46,7 +46,13 @@ class StaticMock {
      */
     public static function mock($class_name)
     {
-        return new Mock($class_name);
+        if (strpos($class_name, '::') === false) {
+            return new Mock($class_name);
+        }
+
+        list($class_name, $method_name) = explode('::', $class_name, 2);
+        $mock = new Mock($class_name);
+        return $mock->shouldReceive($method_name);
     }
 
 }
