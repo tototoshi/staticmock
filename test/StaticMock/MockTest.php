@@ -16,6 +16,15 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock->assert();
     }
 
+    public function testMockShorthand()
+    {
+        $mock = \StaticMock::mock('StaticMock\Car::boo');
+        $p = new Person();
+        $p->drive();
+        $this->assertEquals(1, $mock->getCalledCount());
+        $mock->assert();
+    }
+
     public function testMockConstruction()
     {
         $mock = \StaticMock::mock('StaticMock\Car');
