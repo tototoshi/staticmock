@@ -31,6 +31,8 @@ To install runkit, execute the following commands and add `extension=runkit.so` 
 pecl install runkit
 ```
 
+For PHP 7, Please try [TysonAndre/runkit7](https://github.com/TysonAndre/runkit7).
+
 ## Install
 
 composer.json
