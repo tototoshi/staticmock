@@ -32,7 +32,7 @@ class WithPHPUnitTest extends \PHPUnit_Framework_TestCase
             $this->assertStaticMock($mock);
             $this->fail();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $this->assertEquals($e->getMessage(), 'Failed asserting that mocked method should be called 0 times but called 1 times.');
+            $this->assertEquals('Failed asserting that mocked method should be called 0 times but called 1 times.', $e->getMessage());
         }
     }
 
@@ -46,7 +46,7 @@ class WithPHPUnitTest extends \PHPUnit_Framework_TestCase
             $this->assertStaticMock($mock);
             $this->fail();
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $this->assertEquals($e->getMessage(), 'Failed asserting that mocked method should be called with (1) but called with (5).');
+            $this->assertEquals('Failed asserting that mocked method should be called with (1) but called with (5).', $e->getMessage());
         }
     }
 
