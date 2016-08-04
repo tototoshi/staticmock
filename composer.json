@@ -1,9 +1,13 @@
 {
     "name": "tototoshi/staticmock",
+    "description": "A mockery-like DSL to replace static method in test.",
     "license": "BSD-3-Clause",
+    "require": {
+        "ext-runkit": "*"
+    },
     "require-dev": {
         "phpunithelper/phpunithelper": "dev-master",
-        "phpunit/phpunit": "4.3.*",
+        "phpunit/phpunit": "^4.8",
         "herrera-io/runkit-hint": "*"
     },
     "autoload": {
