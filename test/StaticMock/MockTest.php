@@ -64,14 +64,17 @@ class MockTest extends \PHPUnit_Framework_TestCase
 
     public function testPartialArgs_Fail()
     {
+        $raised = false;
         try {
             $mock = \StaticMock::mock('StaticMock\Person');
             $mock->shouldReceive('eat')->withNthArg(3, 3)->withNthArg(1, 1)->withNthArg(2, 100);
             Person::eat(1, 2, 3, 4);
             $mock->assert();
         } catch (AssertionFailedException $e) {
+            $raised = true;
             $this->assertEquals('Mocked method should be called with 100 as the 2th argument but called with 2', $e->getMessage());
         }
+        $this->assertTrue($raised);
     }
 
     public function testAssertions()
@@ -96,8 +99,8 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock = \StaticMock::mock('StaticMock\Car');
         $mock->shouldReceive('beep')->with(5)->once()->andReturn('ban!');
         $p = new Person();
-        $expected = $p->warn(5);
-        $this->assertEquals('ban!', $expected);
+        $actual = $p->warn(5);
+        $this->assertEquals('ban!', $actual);
         $mock->assert();
     }
 
@@ -106,9 +109,8 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock = \StaticMock::mock('StaticMock\Car');
         $mock->shouldReceive('beep')->with(5)->twice()->andReturn('ban!');
         $p = new Person();
-        $expected = $p->warn(5);
-        $expected = $p->warn(5);
-        $this->assertEquals('ban!', $expected);
+        $this->assertEquals('ban!', $p->warn(5));
+        $this->assertEquals('ban!', $p->warn(5));
         $mock->assert();
     }
 
