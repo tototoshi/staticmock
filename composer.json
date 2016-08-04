@@ -1,5 +1,6 @@
 {
     "name": "tototoshi/staticmock",
+    "description": "A mockery-like DSL to replace static method in test.",
     "license": "BSD-3-Clause",
     "require-dev": {
         "phpunithelper/phpunithelper": "dev-master",
