@@ -99,8 +99,8 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock = \StaticMock::mock('StaticMock\Car');
         $mock->shouldReceive('beep')->with(5)->once()->andReturn('ban!');
         $p = new Person();
-        $expected = $p->warn(5);
-        $this->assertEquals('ban!', $expected);
+        $actual = $p->warn(5);
+        $this->assertEquals('ban!', $actual);
         $mock->assert();
     }
 
@@ -109,9 +109,8 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock = \StaticMock::mock('StaticMock\Car');
         $mock->shouldReceive('beep')->with(5)->twice()->andReturn('ban!');
         $p = new Person();
-        $expected = $p->warn(5);
-        $expected = $p->warn(5);
-        $this->assertEquals('ban!', $expected);
+        $this->assertEquals('ban!', $p->warn(5));
+        $this->assertEquals('ban!', $p->warn(5));
         $mock->assert();
     }
 
