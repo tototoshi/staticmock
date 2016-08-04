@@ -4,7 +4,7 @@
     "license": "BSD-3-Clause",
     "require-dev": {
         "phpunithelper/phpunithelper": "dev-master",
-        "phpunit/phpunit": "4.3.*",
+        "phpunit/phpunit": "^4.8",
         "herrera-io/runkit-hint": "*"
     },
     "autoload": {
