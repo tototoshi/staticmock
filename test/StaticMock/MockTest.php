@@ -64,14 +64,17 @@ class MockTest extends \PHPUnit_Framework_TestCase
 
     public function testPartialArgs_Fail()
     {
+        $raised = false;
         try {
             $mock = \StaticMock::mock('StaticMock\Person');
             $mock->shouldReceive('eat')->withNthArg(3, 3)->withNthArg(1, 1)->withNthArg(2, 100);
             Person::eat(1, 2, 3, 4);
             $mock->assert();
         } catch (AssertionFailedException $e) {
+            $raised = true;
             $this->assertEquals('Mocked method should be called with 100 as the 2th argument but called with 2', $e->getMessage());
         }
+        $this->assertTrue($raised);
     }
 
     public function testAssertions()
