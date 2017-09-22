@@ -120,6 +120,9 @@ class Mock {
                     );
                 }
 
+            } elseif (count($this->shouldPassedArgs) === 0 && max(array_keys($passed_arguments)) + 1 !== 0) {
+                $actual = StringUtil::methodArgsToReadableString($passed_arguments);
+                throw $this->createAssertionFailException("Mocked method should be called with no argments but called with {$actual}");
             } else {
                 foreach ($passed_arguments as $k => $v) {
                     if (array_key_exists($k, $this->shouldPassedArgs)) {
