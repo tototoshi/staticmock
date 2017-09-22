@@ -9,6 +9,11 @@ class Person {
         return Car::boo();
     }
 
+    public function drunk_drive()
+    {
+        return Car::boo(-1);
+    }
+
     public function warn($times)
     {
         return Car::beep($times);
