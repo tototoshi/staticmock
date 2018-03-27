@@ -66,7 +66,8 @@ class MethodReplaceableClass {
             ;
     }
 
-    private function getStashedMethodName($method_name) {
+    private function getStashedMethodName($method_name)
+    {
         /* Like python :) */
         return '_' . $this->class_name . '__' . $method_name;
     }
@@ -84,38 +85,52 @@ class MethodReplaceableClass {
      * @return $this
      * @throws MethodNotFoundException
      */
-    public function addMethod($method_name, \Closure $func) {
+    public function addMethod($method_name, \Closure $func)
+    {
         if (!method_exists($this->class_name, $method_name)) {
             throw new MethodNotFoundException("{$this->class_name} doesn't have such a method ({$method_name})");
         }
 
         $this->methods[$method_name] = $func;
 
-        /**
-         * Stash the original implementation temporarily as a method of different name.
-         * Need to check the existence of stashed method not to write psuedo implementation
-         * twice and forget the original implementation
-         */
-        if (!$this->stashedMethodExists($method_name)) {
-            if (function_exists('runkit7_method_rename')) {
-                runkit7_method_rename($this->class_name, $method_name, $this->getStashedMethodName($method_name));
-            } else {
-                runkit_method_rename($this->class_name, $method_name, $this->getStashedMethodName($method_name));
-            }
+        if (function_exists('uopz_set_return')) {
+            $class_name = $this->class_name;
+            $callback = function () use ($class_name, $method_name) {
+                return call_user_func_array(
+                    array('StaticMock\MethodReplacer\MethodInvoker', 'invoke'),
+                    array_merge(array($class_name, $method_name), func_get_args())
+                );
+            };
+            uopz_set_return($this->class_name, $method_name, $callback, 1);
         } else {
-            if (function_exists('runkit7_method_remove')) {
-                runkit7_method_remove($this->class_name, $method_name);
+            if (!$this->stashedMethodExists($method_name)) {
+                /**
+                 * Stash the original implementation temporarily as a method of different name.
+                 * Need to check the existence of stashed method not to write psuedo implementation
+                 * twice and forget the original implementation
+                 */
+
+                if (function_exists('runkit7_method_rename')) {
+                    runkit7_method_rename($this->class_name, $method_name, $this->getStashedMethodName($method_name));
+                } else {
+                    runkit_method_rename($this->class_name, $method_name, $this->getStashedMethodName($method_name));
+                }
             } else {
-                runkit_method_remove($this->class_name, $method_name);
+                if (function_exists('runkit7_method_remove')) {
+                    runkit7_method_remove($this->class_name, $method_name);
+                } else {
+                    runkit_method_remove($this->class_name, $method_name);
+                }
+            }
+
+            $code = $this->getFakeCode($this->class_name, $method_name);
+            if (function_exists('runkit7_method_add')) {
+                runkit7_method_add($this->class_name, $method_name, '', $code, RUNKIT_ACC_STATIC);
+            } else {
+                runkit_method_add($this->class_name, $method_name, '', $code, RUNKIT_ACC_STATIC);
             }
         }
 
-        $code = $this->getFakeCode($this->class_name, $method_name);
-        if (function_exists('runkit7_method_add')) {
-            runkit7_method_add($this->class_name, $method_name, '', $code, RUNKIT_ACC_STATIC);
-        } else {
-            runkit_method_add($this->class_name, $method_name, '', $code, RUNKIT_ACC_STATIC);
-        }
         return $this;
     }
 
@@ -129,10 +144,9 @@ class MethodReplaceableClass {
     {
         if (isset($this->methods[$method_name])) {
             return $this->methods[$method_name];
-        } else {
-            return null;
         }
 
+        return null;
     }
 
     /**
@@ -144,7 +158,9 @@ class MethodReplaceableClass {
      */
     public function removeMethod($method_name)
     {
-        if ($this->stashedMethodExists($method_name)) {
+        if (function_exists('uopz_unset_return')) {
+            uopz_unset_return($this->class_name, $method_name);
+        } else if ($this->stashedMethodExists($method_name)) {
             if (function_exists('runkit7_method_remove')) {
                 runkit7_method_remove($this->class_name, $method_name);
             } else {
@@ -160,5 +176,4 @@ class MethodReplaceableClass {
 
         return $this;
     }
-
 }
