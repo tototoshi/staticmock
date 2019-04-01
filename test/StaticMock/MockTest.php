@@ -135,6 +135,26 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock->assert();
     }
 
+    public function testPassedArgsAssertionThrowsExceptionWhenUnexepectedArgments0()
+    {
+        $mock = \StaticMock::mock('StaticMock\Car');
+        $mock->shouldReceive('boo')->times(1)->with();
+        $this->setExpectedException('\StaticMock\Exception\AssertionFailedException');
+        $p = new Person();
+        $p->drunk_drive();
+        $mock->assert();
+    }
+
+    public function testPassedArgsAssertionThrowsExceptionWhenUnexepectedArgments1()
+    {
+        $mock = \StaticMock::mock('StaticMock\Car');
+        $mock->shouldReceive('boo')->times(1)->with(1);
+        $this->setExpectedException('\StaticMock\Exception\AssertionFailedException');
+        $p = new Person();
+        $p->drive();
+        $mock->assert();
+    }
+
     public function testAndReturn()
     {
         $mock = \StaticMock::mock('StaticMock\Car');
