@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+  - cron: "0 0 * * 0"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: PHP 7.3 and runkit7 1.0.11
+      run: docker run -it --rm -v "$(pwd)":"$(pwd)" -w "$(pwd)" php:7.3-buster ./ci/test-runkit-1.0.11.sh
