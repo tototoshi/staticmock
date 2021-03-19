@@ -16,21 +16,18 @@ $mock->assert();
 
 Mockery (https://github.com/padraic/mockery) provides nice interfaces to create mock objects. But as for static methods, Mockery needs an alias class and we can't create a mock object in one shot with his easy DSL.
 
-
-StaticMock provides Mockery-like DSL for static methods. StaticMock depends on runkit extension and rewrites static methods temporary at run-time.
+StaticMock provides Mockery-like DSL for static methods. StaticMock depends on [runkit7](https://github.com/runkit7/runkit7) extension and rewrites static methods temporary at run-time.
 
 ## Requirements
 
- - PHP >=5.3
- - runkit >=1.0.3
+- PHP 7.3 and runkit 1.0.11
+- PHP >= 7.3 and runkit >= 4.0.0a2
 
-To install runkit, execute the following commands and add `extension=runkit.so` to php.ini.
+I recommend to use [runkit7/runkit7](https://github.com/runkit7/runkit7).
 
-```
-pecl install runkit
-```
+### About runkit7 settings
 
-For PHP 7, Please try [runkit7/runkit7](https://github.com/runkit7/runkit7).
+Please note that the extension name differs depending on the version of runkit7. In the past it was `extension=runkit.so`, but nowadays it is `extension=runkit7.so`
 
 ## Install
 
@@ -39,12 +36,13 @@ composer.json
 ```js
 {
     "require-dev": {
-        "tototoshi/staticmock": "1.2.3"
+        "tototoshi/staticmock": "2.0.0"
     }
 }
 ```
 
 ## Example
+
 Imagine that you are writing tests for User class such like this.
 
 ### Stubbing and Mocking
@@ -96,15 +94,12 @@ class FacebookClient
 
 `User` class has a `getFeed` method. This method aggregates user's feeds from Google+ and Facebook. It depends on `GooglePlusClient` and `FacebookClient` to fetch feeds from their API. We sometimes want stubs for `GooglePlusClient` and `FacebookClient` to write tests for the `User` class. Our goal is only to ensure that `User` class can correctly aggregate feeds from APIs. The behavior of `GooglePlusClient` and `FacebookClient` is out of our head now.
 
-
 The problem is `GooglePlusClient::getFeed` and `FacebookClient::getFeed` are static methods. If they were instace methods, we could manage their dependencies and inject stubs of them to `User` class. But since they are static methods, we can't do that.
-
 
 `StaticMock` solved the problem by replacing the methods temporary at run-time. It provides the easy DSL for replacing methods. All you need to learn is only a few methods.
 
-  - Declare the methods we want to replace with `StaticMock::mock` and `shouldReceive`.
-  - The return value of the method is defined with `andReturn`.
-
+- Declare the methods we want to replace with `StaticMock::mock` and `shouldReceive`.
+- The return value of the method is defined with `andReturn`.
 
 See below. In this example, `GooglePlusClient::getFeed` and `FacebookClient::getFeed` are changed to return `array("From Google+")` and `array("From Facebook")`.
 
@@ -128,8 +123,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 `StaticMock` also has some methods to act as mock object.
 
- - `never()`, `once()`, `twice()` and `times($times)` are used to check how many times they are called.
- - `with` and `withNthArg` are used to check what arguments are passed when they are called.
+- `never()`, `once()`, `twice()` and `times($times)` are used to check how many times they are called.
+- `with` and `withNthArg` are used to check what arguments are passed when they are called.
 
 ```php
 class UserTest extends \PHPUnit_Framework_TestCase
@@ -164,7 +159,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
 Assigning a mock variable (`$mock = StaticMock::mock('MyClass')`) is required sice StaticMock is implemented with constructor and destructor magic.
 The methods are replaced when the instance of `Mock` class is created by `StaticMock::mock` and reverted when the instance goes out of scope.
 
-
 So, the following code doesn't work as you expect.
 
 ```php
@@ -184,8 +178,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 }
 ```
-
-
 
 ### Replacing method implementation
 
@@ -232,7 +224,6 @@ class Mailer
 
 Pass an anonymous function like below. Email will not be sent and only a short line will be printed on your console.
 
-
 ```php
 class UserTest extends \PHPUnit_Framework_TestCase
 {
@@ -255,7 +246,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
 You can easily define custom PHPUnit assertion. See below.
 
-
 ```php
 use StaticMock\Mock;
 use StaticMock\PHPUnit\StaticMockConstraint;
@@ -270,7 +260,6 @@ class WithPHPUnitTest extends \PHPUnit_Framework_TestCase
 
 }
 ```
-
 
 ## LICENSE
 
