@@ -6,8 +6,7 @@
         "ext-runkit": "*"
     },
     "require-dev": {
-        "phpunithelper/phpunithelper": "dev-master",
-        "phpunit/phpunit": "^4.8",
+        "phpunit/phpunit": "^5.7.27",
         "herrera-io/runkit-hint": "*"
     },
     "autoload": {
