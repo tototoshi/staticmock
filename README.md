@@ -1,5 +1,7 @@
 # StaticMock
 
+[![CI](https://github.com/tototoshi/staticmock/actions/workflows/ci.yml/badge.svg)](https://github.com/tototoshi/staticmock/actions/workflows/ci.yml)
+
 A mockery-like DSL to replace static methods in test.
 
 ```php
