@@ -2,7 +2,7 @@
 namespace StaticMock\MethodReplacer;
 
 
-class ClassMethodReplacementGuardTest extends \PHPUnit_Framework_TestCase
+class ClassMethodReplacementGuardTest extends \PHPUnit\Framework\TestCase
 {
 
     public function expectDefaultBehavior()

@@ -9,5 +9,6 @@ $(dirname $0)/install_composer.sh
 $(dirname $0)/install_runkit7.sh 4.0.0a2
 
 composer install
+composer update
 
-./vendor/bin/phpunit
+./vendor/bin/phpunit test
