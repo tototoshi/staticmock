@@ -34,7 +34,7 @@ namespace StaticMock\PHPUnit;
 use StaticMock\Exception\AssertionFailedException;
 
 
-class StaticMockConstraint extends \PHPUnit_Framework_Constraint
+class StaticMockConstraint extends \PHPUnit\Framework\Constraint\Constraint
 {
 
     private $assertion_error_message;

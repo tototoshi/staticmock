@@ -3,7 +3,7 @@ namespace StaticMock;
 
 use StaticMock\Exception\AssertionFailedException;
 
-class MockTest extends \PHPUnit_Framework_TestCase
+class MockTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testMock()
@@ -25,6 +25,9 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock->assert();
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testMockConstruction()
     {
         $mock = \StaticMock::mock('StaticMock\Car');
@@ -34,6 +37,9 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock->assert();
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testMockConstruction2()
     {
         $mock = \StaticMock::mock('StaticMock\Car')->shouldReceive('boo')->times(1)->andReturn(true);
@@ -54,6 +60,9 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock->assert();
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testPartialArgs_Success()
     {
         $mock = \StaticMock::mock('StaticMock\Person');
@@ -87,6 +96,9 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock->assert();
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testNever()
     {
         $mock = \StaticMock::mock('StaticMock\Car');
@@ -119,7 +131,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
         $mock = \StaticMock::mock('\StaticMock\Car');
         $mock->shouldReceive('beep')->times(2)->with(5);
 
-        $this->setExpectedException('\StaticMock\Exception\AssertionFailedException');
+        $this->expectException('\StaticMock\Exception\AssertionFailedException');
         $p = new Person();
         $p->warn(5);
         $mock->assert();
@@ -129,7 +141,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
     {
         $mock = \StaticMock::mock('StaticMock\Car');
         $mock->shouldReceive('beep')->times(1)->with(5);
-        $this->setExpectedException('\StaticMock\Exception\AssertionFailedException');
+        $this->expectException('\StaticMock\Exception\AssertionFailedException');
         $p = new Person();
         $p->warn(4);
         $mock->assert();
@@ -139,7 +151,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
     {
         $mock = \StaticMock::mock('StaticMock\Car');
         $mock->shouldReceive('boo')->times(1)->with();
-        $this->setExpectedException('\StaticMock\Exception\AssertionFailedException');
+        $this->expectException('\StaticMock\Exception\AssertionFailedException');
         $p = new Person();
         $p->drunk_drive();
         $mock->assert();
@@ -149,7 +161,7 @@ class MockTest extends \PHPUnit_Framework_TestCase
     {
         $mock = \StaticMock::mock('StaticMock\Car');
         $mock->shouldReceive('boo')->times(1)->with(1);
-        $this->setExpectedException('\StaticMock\Exception\AssertionFailedException');
+        $this->expectException('\StaticMock\Exception\AssertionFailedException');
         $p = new Person();
         $p->drive();
         $mock->assert();

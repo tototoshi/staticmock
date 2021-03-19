@@ -1,7 +1,7 @@
 <?php
 namespace StaticMock\MethodReplacer;
 
-class ClassManagerTest extends \PHPUnit_Framework_TestCase
+class ClassManagerTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testMock()

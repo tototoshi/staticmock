@@ -1,7 +1,7 @@
 <?php
 namespace StaticMock\MethodReplacer;
 
-class MethodReplaceableClassTest extends \PHPUnit_Framework_TestCase
+class MethodReplaceableClassTest extends \PHPUnit\Framework\TestCase
 {
 
     public function test__construct()
@@ -14,7 +14,7 @@ class MethodReplaceableClassTest extends \PHPUnit_Framework_TestCase
     public function test__construct_withInvalidArg()
     {
         $class_name = 'TestClass';
-        $this->setExpectedException('\StaticMock\Exception\ClassNotFoundException');
+        $this->expectException('\StaticMock\Exception\ClassNotFoundException');
         new MethodReplaceableClass($class_name);
     }
 
@@ -33,7 +33,7 @@ class MethodReplaceableClassTest extends \PHPUnit_Framework_TestCase
         $invalid_method_name = 'b';
         $f = function () { return 1; };
         $class = new MethodReplaceableClass('StaticMock\MethodReplacer\A');
-        $this->setExpectedException('\StaticMock\Exception\MethodNotFoundException');
+        $this->expectException('\StaticMock\Exception\MethodNotFoundException');
         $class->addMethod($invalid_method_name, $f);
     }
 

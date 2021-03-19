@@ -1,7 +1,7 @@
 <?php
 namespace StaticMock\Util;
 
-class ArrayUtilTest extends \PHPUnit_Framework_TestCase
+class ArrayUtilTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testIsAssoc()
