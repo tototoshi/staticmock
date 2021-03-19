@@ -46,7 +46,7 @@ class StaticMockConstraint extends \PHPUnit\Framework\Constraint\Constraint
      * @param mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
+    protected function matches($other): bool
     {
         try {
             $other->assert();
@@ -62,7 +62,7 @@ class StaticMockConstraint extends \PHPUnit\Framework\Constraint\Constraint
      *
      * @return string
      */
-    public function toString()
+    public function toString(): string
     {
         if ($this->assertion_error_message === null) {
             return "mock object doesn't satisfy constraint";
@@ -83,7 +83,7 @@ class StaticMockConstraint extends \PHPUnit\Framework\Constraint\Constraint
      * @param  mixed $other Evaluated value or object.
      * @return string
      */
-    protected function failureDescription($other)
+    protected function failureDescription($other): string
     {
         return $this->toString();
     }
