@@ -17,8 +17,10 @@ jobs:
       matrix:
         include:
           - task: test-php-7.3-runkit-1.0.11
-          - task: test-php-7.4-runkit-4.0.0a2
+          - task: test-php-7.3-runkit-2.1.0
+          - task: test-php-7.3-runkit-3.0.0
           - task: test-php-7.3-runkit-4.0.0a2
+          - task: test-php-7.4-runkit-4.0.0a2
           - task: test-php-8.0-runkit-4.0.0a2
 
     steps:
