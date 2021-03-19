@@ -104,7 +104,7 @@ The problem is `GooglePlusClient::getFeed` and `FacebookClient::getFeed` are sta
 See below. In this example, `GooglePlusClient::getFeed` and `FacebookClient::getFeed` are changed to return `array("From Google+")` and `array("From Facebook")`.
 
 ```php
-class UserTest extends \PHPUnit_Framework_TestCase
+class UserTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testGetFeed()
@@ -127,7 +127,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 - `with` and `withNthArg` are used to check what arguments are passed when they are called.
 
 ```php
-class UserTest extends \PHPUnit_Framework_TestCase
+class UserTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testGetFeed()
@@ -162,7 +162,7 @@ The methods are replaced when the instance of `Mock` class is created by `Static
 So, the following code doesn't work as you expect.
 
 ```php
-class UserTest extends \PHPUnit_Framework_TestCase
+class UserTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testGetFeed()
@@ -225,7 +225,7 @@ class Mailer
 Pass an anonymous function like below. Email will not be sent and only a short line will be printed on your console.
 
 ```php
-class UserTest extends \PHPUnit_Framework_TestCase
+class UserTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testRegister()
@@ -250,7 +250,7 @@ You can easily define custom PHPUnit assertion. See below.
 use StaticMock\Mock;
 use StaticMock\PHPUnit\StaticMockConstraint;
 
-class WithPHPUnitTest extends \PHPUnit_Framework_TestCase
+class WithPHPUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     public function assertStaticMock(Mock $mock)
