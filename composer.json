@@ -2,8 +2,8 @@
     "name": "tototoshi/staticmock",
     "description": "A mockery-like DSL to replace static method in test.",
     "license": "BSD-3-Clause",
-    "require": {
-        "ext-runkit": "*"
+    "suggest": {
+        "ext-runkit": "https://github.com/runkit7/runkit7"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7.27",
