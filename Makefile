@@ -25,5 +25,6 @@ test-php-8.0-runkit-4.0.0a2:
 
 test-all:\
 	test-php-7.3-runkit-1.0.11 \
+	test-php-7.3-runkit-4.0.0a2 \
 	test-php-7.4-runkit-4.0.0a2 \
-	test-php-7.3-runkit-4.0.0a2
+	test-php-8.0-runkit-4.0.0a2
