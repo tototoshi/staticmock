@@ -63,7 +63,7 @@ class MethodReplaceableClass {
                 array('StaticMock\\MethodReplacer\\MethodInvoker', 'invoke'),
                 array_merge(array('{$class_name}', '{$method_name}'), func_get_args())
             );"
-        ;
+            ;
     }
 
     private function getStashedMethodName($method_name) {
@@ -97,13 +97,25 @@ class MethodReplaceableClass {
          * twice and forget the original implementation
          */
         if (!$this->stashedMethodExists($method_name)) {
-            runkit_method_rename($this->class_name, $method_name, $this->getStashedMethodName($method_name));
+            if (function_exists('runkit7_method_rename')) {
+                runkit7_method_rename($this->class_name, $method_name, $this->getStashedMethodName($method_name));
+            } else {
+                runkit_method_rename($this->class_name, $method_name, $this->getStashedMethodName($method_name));
+            }
         } else {
-            runkit_method_remove($this->class_name, $method_name);
+            if (function_exists('runkit7_method_remove')) {
+                runkit7_method_remove($this->class_name, $method_name);
+            } else {
+                runkit_method_remove($this->class_name, $method_name);
+            }
         }
 
         $code = $this->getFakeCode($this->class_name, $method_name);
-        runkit_method_add($this->class_name, $method_name, '', $code, RUNKIT_ACC_STATIC);
+        if (function_exists('runkit7_method_add')) {
+            runkit7_method_add($this->class_name, $method_name, '', $code, RUNKIT_ACC_STATIC);
+        } else {
+            runkit_method_add($this->class_name, $method_name, '', $code, RUNKIT_ACC_STATIC);
+        }
         return $this;
     }
 
@@ -133,8 +145,16 @@ class MethodReplaceableClass {
     public function removeMethod($method_name)
     {
         if ($this->stashedMethodExists($method_name)) {
-            runkit_method_remove($this->class_name, $method_name);
-            runkit_method_rename($this->class_name, $this->getStashedMethodName($method_name), $method_name);
+            if (function_exists('runkit7_method_remove')) {
+                runkit7_method_remove($this->class_name, $method_name);
+            } else {
+                runkit_method_remove($this->class_name, $method_name);
+            }
+            if (function_exists('runkit7_method_rename')) {
+                runkit7_method_rename($this->class_name, $this->getStashedMethodName($method_name), $method_name);
+            } else {
+                runkit_method_rename($this->class_name, $this->getStashedMethodName($method_name), $method_name);
+            }
         }
         unset($this->methods[$method_name]);
 
