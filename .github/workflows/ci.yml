@@ -13,7 +13,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        include:
+          - task: test-php-7.3-runkit-1.0.11
+          - task: test-php-7.4-runkit-4.0.0a2
+          - task: test-php-7.3-runkit-4.0.0a2
+
     steps:
     - uses: actions/checkout@v2
-    - name: PHP 7.3 and runkit7 1.0.11
-      run: docker run -i --rm -v "$(pwd)":"$(pwd)" -w "$(pwd)" php:7.3-buster ./ci/test-runkit-1.0.11.sh
+    - name: Run tests "${{ matrix.task }}"
+      run: make "${{ matrix.task }}"
