@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/tototoshi/staticmock/actions/workflows/ci.yml/badge.svg)](https://github.com/tototoshi/staticmock/actions/workflows/ci.yml)
 
-A mockery-like DSL to replace static methods in test.
+A mockery-like DSL to replace static methods in tests.
 
 ```php
 $mock = StaticMock::mock('FooService');
@@ -18,14 +18,14 @@ $mock->assert();
 
 Mockery (https://github.com/padraic/mockery) provides nice interfaces to create mock objects. But as for static methods, Mockery needs an alias class and we can't create a mock object in one shot with his easy DSL.
 
-StaticMock provides Mockery-like DSL for static methods. StaticMock depends on [runkit7](https://github.com/runkit7/runkit7) extension and rewrites static methods temporary at run-time.
+StaticMock provides Mockery-like DSL for static methods. StaticMock depends on [runkit7](https://github.com/runkit7/runkit7) extension and rewrites static methods temporarily at run-time.
 
 ## Requirements
 
 - PHP 7.3 and runkit 1.0.11
 - PHP >= 7.3 and runkit >= 4.0.0a2
 
-I recommend to use [runkit7/runkit7](https://github.com/runkit7/runkit7).
+I recommend using [runkit7/runkit7](https://github.com/runkit7/runkit7).
 
 ### About runkit7 settings
 
@@ -45,7 +45,7 @@ composer.json
 
 ## Example
 
-Imagine that you are writing tests for User class such like this.
+Imagine that you are writing tests for `User` class such as this.
 
 ### Stubbing and Mocking
 
@@ -77,7 +77,7 @@ class GooglePlusClient
 
     public static function getFeed($email, $limit)
     {
-        // send request to Google
+        // send a request to Google
     }
 }
 
@@ -87,18 +87,18 @@ class FacebookClient
 
     public static function getFeed($email, $limit)
     {
-        // send request to Facebook
+        // send a request to Facebook
     }
 }
 
 
 ```
 
-`User` class has a `getFeed` method. This method aggregates user's feeds from Google+ and Facebook. It depends on `GooglePlusClient` and `FacebookClient` to fetch feeds from their API. We sometimes want stubs for `GooglePlusClient` and `FacebookClient` to write tests for the `User` class. Our goal is only to ensure that `User` class can correctly aggregate feeds from APIs. The behavior of `GooglePlusClient` and `FacebookClient` is out of our head now.
+`User` class has a `getFeed` method. This method aggregates user's feeds from Google+ and Facebook. It depends on `GooglePlusClient` and `FacebookClient` to fetch feeds from their API. We sometimes want stubs for `GooglePlusClient` and `FacebookClient` to write tests for the `User` class. Our goal is only to ensure that `User` class can correctly aggregate feeds from APIs. The behavior of `GooglePlusClient` and `FacebookClient` is out of our heads now.
 
-The problem is `GooglePlusClient::getFeed` and `FacebookClient::getFeed` are static methods. If they were instace methods, we could manage their dependencies and inject stubs of them to `User` class. But since they are static methods, we can't do that.
+The problem is `GooglePlusClient::getFeed` and `FacebookClient::getFeed` are static methods. If they were instance methods, we could manage their dependencies and inject stubs of them to `User` class. But since they are static methods, we can't do that.
 
-`StaticMock` solved the problem by replacing the methods temporary at run-time. It provides the easy DSL for replacing methods. All you need to learn is only a few methods.
+`StaticMock` solved the problem by replacing the methods temporarily at run-time. It provides an easy DSL for replacing methods. All you need to learn is only a few methods.
 
 - Declare the methods we want to replace with `StaticMock::mock` and `shouldReceive`.
 - The return value of the method is defined with `andReturn`.
@@ -123,7 +123,7 @@ class UserTest extends \PHPUnit\Framework\TestCase
 }
 ```
 
-`StaticMock` also has some methods to act as mock object.
+`StaticMock` also has some methods to act as mock objects.
 
 - `never()`, `once()`, `twice()` and `times($times)` are used to check how many times they are called.
 - `with` and `withNthArg` are used to check what arguments are passed when they are called.
@@ -183,9 +183,9 @@ class UserTest extends \PHPUnit\Framework\TestCase
 
 ### Replacing method implementation
 
-`andImplement` are useful to change the behavior of the method.
+`andImplement` is useful to change the behavior of the method.
 
-See below again. We are writing a test for `User::register` this time but we don't want to send email every time running the test.
+See below again. We are writing a test for `User::register` this time but we don't want to send an email every time running the test.
 
 ```php
 class User
@@ -224,7 +224,7 @@ class Mailer
 
 ```
 
-Pass an anonymous function like below. Email will not be sent and only a short line will be printed on your console.
+Pass an anonymous function like below. The Email will not be sent and only a short line will be printed on your console.
 
 ```php
 class UserTest extends \PHPUnit\Framework\TestCase
