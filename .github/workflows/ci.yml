@@ -22,6 +22,9 @@ jobs:
           - task: ci-php-7.3-runkit-4.0.0a2
           - task: ci-php-7.4-runkit-4.0.0a2
           - task: ci-php-8.0-runkit-4.0.0a2
+          - task: ci-php-7.3-uopz
+          - task: ci-php-7.4-uopz
+          - task: ci-php-8.0-uopz
 
     steps:
     - uses: actions/checkout@v2

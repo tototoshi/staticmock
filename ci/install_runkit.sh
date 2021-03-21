@@ -19,4 +19,4 @@ else
     extension_name="runkit7"
 fi
 
-echo "extension=/runkit7/modules/${extension_name}.so" >> $PHP_INI_DIR/conf.d/runkit.ini
+echo "extension=/runkit7/modules/${extension_name}.so" > $PHP_INI_DIR/conf.d/runkit.ini

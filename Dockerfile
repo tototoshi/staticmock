@@ -1,4 +1,4 @@
-FROM php:latest
+FROM php:7.4
 
 RUN apt-get update &&\
     apt-get install -y git unzip zip
@@ -9,8 +9,9 @@ RUN cd /tmp &&\
     mkdir -p $HOME/bin &&\
     php composer-setup.php --install-dir=$HOME/bin --filename=composer
 
-RUN pecl install channel://pecl.php.net/runkit7-4.0.0a2 &&\
-    echo "extension=runkit7.so" > $PHP_INI_DIR/conf.d/runkit.ini
+RUN pecl install channel://pecl.php.net/runkit7-4.0.0a2
+
+RUN pecl install uopz
 
 ENV PATH=/root/bin:$PATH
 
