@@ -2,17 +2,17 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
   schedule:
-  - cron: "0 0 * * 0"
+    - cron: "0 0 * * 0"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
+    continue-on-error: true
     strategy:
       matrix:
         include:
@@ -27,6 +27,6 @@ jobs:
           - task: ci-php-8.0-uopz
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Run tests "${{ matrix.task }}"
-      run: make "${{ matrix.task }}"
+      - uses: actions/checkout@v2
+      - name: Run tests "${{ matrix.task }}"
+        run: make "${{ matrix.task }}"
