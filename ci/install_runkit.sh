@@ -13,4 +13,10 @@ phpize
 make
 make install
 
-echo "extension=/runkit7/modules/runkit.so" >> $PHP_INI_DIR/conf.d/runkit.ini
+if [[ $version < "3.0.0" ]]; then
+    extension_name="runkit"
+else
+    extension_name="runkit7"
+fi
+
+echo "extension=/runkit7/modules/${extension_name}.so" >> $PHP_INI_DIR/conf.d/runkit.ini
