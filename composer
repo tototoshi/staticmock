@@ -1,0 +1,47 @@
+#!/bin/bash
+
+COMPOSERX_HOME=$HOME/.composerx
+COMPOSERX_BIN=$COMPOSERX_HOME/bin
+COMPOSERX_EXECUTABLE=$COMPOSERX_HOME/bin/composer
+
+function __download_setup_php() {
+    # See:
+    #   How do I install Composer programmatically? - Composer
+    #   https://getcomposer.org/doc/faqs/how-to-install-composer-programmatically.md
+    EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+    if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
+    then
+        >&2 echo 'ERROR: Invalid installer checksum'
+        rm composer-setup.php
+        exit 1
+    fi
+}
+
+function __rm_setup_php() {
+    rm -f composer-setup.php
+}
+
+function __install_composer() {
+    if [ ! -f $COMPOSERX_EXECUTABLE ]; then
+        if [ -f composer-setup.php ]; then
+            >&2 echo 'ERROR: Delete the existing composer-setup.php file before running this script'
+            exit 1
+        fi
+
+        __download_setup_php
+        trap __rm_setup_php EXIT
+
+        mkdir -p $COMPOSERX_BIN
+        php composer-setup.php --quiet --install-dir=$COMPOSERX_BIN --filename=composer
+    fi
+}
+
+function __main() {
+    __install_composer
+    $COMPOSERX_EXECUTABLE "$@"
+}
+
+__main "$@"

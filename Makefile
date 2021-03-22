@@ -1,4 +1,5 @@
 pwd := $(shell pwd)
+composer := ./composer
 
 .PHONY: \
 	clean \
@@ -18,9 +19,12 @@ pwd := $(shell pwd)
 	ci-php-7.4-uopz \
 	ci-php-8.0-uopz
 
+$(composer):
+	curl -Ls https://raw.githubusercontent.com/tototoshi/composerx/main/composer > $(composer) && chmod +x $(composer)
+
 clean:
 	rm -rf vendor/
-	composer clear-cache
+	$(composer) clear-cache
 
 docker-bash:
 	docker build -t staticmock-dev -f Dockerfile .
@@ -33,7 +37,7 @@ use-runkit7:
 	echo "extension=runkit7.so" > $(PHP_INI_DIR)/conf.d/staticmock.ini
 
 test:
-	./vendor/bin/phpunit test
+	$(composer) exec phpunit test
 
 test-uopz: use-uopz test
 
