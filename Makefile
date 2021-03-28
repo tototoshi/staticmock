@@ -68,4 +68,4 @@ ci-php-7.4-uopz:
 	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:7.4 ./ci/test-uopz.sh
 
 ci-php-8.0-uopz:
-	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.0 ./ci/test-uopz.sh
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.0 ./ci/test-uopz-master.sh
