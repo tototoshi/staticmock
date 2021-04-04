@@ -32,6 +32,7 @@
 namespace StaticMock\MethodReplacer;
 use StaticMock\Exception\ClassNotFoundException;
 use StaticMock\Exception\MethodNotFoundException;
+use StaticMock\Exception\ExtensionNotFoundException;
 
 /**
  * Class MethodReplaceableClass
@@ -41,6 +42,12 @@ class MethodReplaceableClass {
 
     private $class_name;
 
+    /**
+     * If true, use runkit or runkit7.
+     * If false, use uopz.
+     */
+    private $use_runkit = true;
+
     private $methods = array();
 
     /**
@@ -49,6 +56,14 @@ class MethodReplaceableClass {
      */
     public function __construct($class_name)
     {
+        if (function_exists('runkit7_method_rename') || function_exists('runkit_method_rename')) {
+            $this->use_runkit = true;
+        } else if (function_exists('uopz_set_return')) {
+            $this->use_runkit = false;
+        } else {
+            throw new ExtensionNotFoundException("PHP extension not found, please install runkit7(runkit) or uopz");
+        }
+
         if (!class_exists($class_name)) {
             throw new ClassNotFoundException("No such a class found ({$class_name})");
         }
@@ -93,7 +108,7 @@ class MethodReplaceableClass {
 
         $this->methods[$method_name] = $func;
 
-        if (function_exists('uopz_set_return')) {
+        if (!$this->use_runkit) {
             $class_name = $this->class_name;
             $callback = function () use ($class_name, $method_name) {
                 return call_user_func_array(
@@ -158,7 +173,7 @@ class MethodReplaceableClass {
      */
     public function removeMethod($method_name)
     {
-        if (function_exists('uopz_unset_return')) {
+        if (!$this->use_runkit) {
             uopz_unset_return($this->class_name, $method_name);
         } else if ($this->stashedMethodExists($method_name)) {
             if (function_exists('runkit7_method_remove')) {
