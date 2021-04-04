@@ -56,7 +56,7 @@ class MethodInvoker {
         $fake_method = $managed_class->getMethod($method_name);
 
         if (!$fake_method) {
-            throw new MethodInvocationException('Method not found!');
+            throw new MethodInvocationException("Method not found! {$class_name}::{$method_name}");
         }
 
         return call_user_func_array($fake_method, $method_args);
