@@ -40,7 +40,7 @@ class ClassManager implements Singleton {
 
     private static $instance = null;
 
-    private $runkit_managed_classes = array();
+    private $managed_classes = array();
 
     /*
      * This class is a singleton.
@@ -73,8 +73,8 @@ class ClassManager implements Singleton {
      */
     public function getManagedClassOrNewOne($class_name)
     {
-        if (isset($this->runkit_managed_classes[$class_name])) {
-            return $this->runkit_managed_classes[$class_name];
+        if (isset($this->managed_classes[$class_name])) {
+            return $this->managed_classes[$class_name];
         } else {
             return new MethodReplaceableClass($class_name);
         }
@@ -89,7 +89,7 @@ class ClassManager implements Singleton {
      */
     public function register($class_name, $method_name, \Closure $method_implementation)
     {
-        $this->runkit_managed_classes[$class_name] =
+        $this->managed_classes[$class_name] =
             $this
                 ->getManagedClassOrNewOne($class_name)
                 ->addMethod($method_name, $method_implementation);
