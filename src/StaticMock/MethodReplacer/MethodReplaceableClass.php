@@ -108,16 +108,7 @@ class MethodReplaceableClass {
 
         $this->methods[$method_name] = $func;
 
-        if (!$this->use_runkit) {
-            $class_name = $this->class_name;
-            $callback = function () use ($class_name, $method_name) {
-                return call_user_func_array(
-                    array('StaticMock\MethodReplacer\MethodInvoker', 'invoke'),
-                    array_merge(array($class_name, $method_name), func_get_args())
-                );
-            };
-            uopz_set_return($this->class_name, $method_name, $callback, 1);
-        } else {
+        if ($this->use_runkit) {
             if (!$this->stashedMethodExists($method_name)) {
                 /**
                  * Stash the original implementation temporarily as a method of different name.
@@ -144,6 +135,15 @@ class MethodReplaceableClass {
             } else {
                 runkit_method_add($this->class_name, $method_name, '', $code, RUNKIT_ACC_STATIC);
             }
+        } else {
+            $class_name = $this->class_name;
+            $callback = function () use ($class_name, $method_name) {
+                return call_user_func_array(
+                    array('StaticMock\MethodReplacer\MethodInvoker', 'invoke'),
+                    array_merge(array($class_name, $method_name), func_get_args())
+                );
+            };
+            uopz_set_return($this->class_name, $method_name, $callback, 1);
         }
 
         return $this;
@@ -173,19 +173,21 @@ class MethodReplaceableClass {
      */
     public function removeMethod($method_name)
     {
-        if (!$this->use_runkit) {
+        if ($this->use_runkit) {
+            if ($this->stashedMethodExists($method_name)) {
+                if (function_exists('runkit7_method_remove')) {
+                    runkit7_method_remove($this->class_name, $method_name);
+                } else {
+                    runkit_method_remove($this->class_name, $method_name);
+                }
+                if (function_exists('runkit7_method_rename')) {
+                    runkit7_method_rename($this->class_name, $this->getStashedMethodName($method_name), $method_name);
+                } else {
+                    runkit_method_rename($this->class_name, $this->getStashedMethodName($method_name), $method_name);
+                }
+            }
+        } else {
             uopz_unset_return($this->class_name, $method_name);
-        } else if ($this->stashedMethodExists($method_name)) {
-            if (function_exists('runkit7_method_remove')) {
-                runkit7_method_remove($this->class_name, $method_name);
-            } else {
-                runkit_method_remove($this->class_name, $method_name);
-            }
-            if (function_exists('runkit7_method_rename')) {
-                runkit7_method_rename($this->class_name, $this->getStashedMethodName($method_name), $method_name);
-            } else {
-                runkit_method_rename($this->class_name, $this->getStashedMethodName($method_name), $method_name);
-            }
         }
         unset($this->methods[$method_name]);
 
