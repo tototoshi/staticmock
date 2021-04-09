@@ -23,7 +23,7 @@ class MethodReplaceableClassTest extends \PHPUnit\Framework\TestCase
         $method_name = 'a';
         $f = function () { return 1; };
         $class = new MethodReplaceableClass('\StaticMock\MethodReplacer\A');
-        $actual = $class->addMethod($method_name, $f);
+        $actual = $class->addMethod($method_name, $f, $f);
         $expected = $f;
         $this->assertEquals($expected, $actual->getMethod('a'));
     }
@@ -34,7 +34,7 @@ class MethodReplaceableClassTest extends \PHPUnit\Framework\TestCase
         $f = function () { return 1; };
         $class = new MethodReplaceableClass('StaticMock\MethodReplacer\A');
         $this->expectException('\StaticMock\Exception\MethodNotFoundException');
-        $class->addMethod($invalid_method_name, $f);
+        $class->addMethod($invalid_method_name, $f, $f);
     }
 
     public function testRemoveMethod()
@@ -42,7 +42,7 @@ class MethodReplaceableClassTest extends \PHPUnit\Framework\TestCase
         $method_name = 'a';
         $f = function () { return 1; };
         $class = new MethodReplaceableClass('\StaticMock\MethodReplacer\A');
-        $actual = $class->addMethod($method_name, $f)->removeMethod('a');
+        $actual = $class->addMethod($method_name, $f, $f)->removeMethod('a');
         $this->assertNull($actual->getMethod('a'));
     }
 

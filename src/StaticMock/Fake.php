@@ -52,10 +52,10 @@ class Fake {
     public function getImplementation($implementation)
     {
         $that = $this;
-        return function () use ($implementation, $that) {
+        return function (&...$args) use ($implementation, $that) {
             Counter::getInstance()->increment($that->hash());
-            Arguments::getInstance()->record($that->hash(), func_get_args());
-            return call_user_func_array($implementation, func_get_args());
+            Arguments::getInstance()->record($that->hash(), ...$args);
+            return $implementation(...$args);
         };
     }
 

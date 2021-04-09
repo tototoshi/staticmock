@@ -31,8 +31,8 @@
 
 namespace StaticMock\MethodReplacer;
 use StaticMock\Exception\ClassNotFoundException;
-use StaticMock\Exception\MethodNotFoundException;
 use StaticMock\Exception\ExtensionNotFoundException;
+use StaticMock\Exception\MethodNotFoundException;
 
 /**
  * Class MethodReplaceableClass
@@ -71,14 +71,27 @@ class MethodReplaceableClass {
         $this->class_name = $class_name;
     }
 
-    private function getFakeCode($class_name, $method_name)
+    /**
+     * @param $class_name
+     * @param $method_name
+     * @param $func
+     * @return array
+     * @throws \ReflectionException
+     */
+    private function getFakeCode($class_name, $method_name, $func)
     {
-        return "
-            return call_user_func_array(
-                array('StaticMock\\MethodReplacer\\MethodInvoker', 'invoke'),
-                array_merge(array('{$class_name}', '{$method_name}'), func_get_args())
-            );"
-            ;
+        $parameters = Parameters::make($func);
+
+        $params_string = $parameters->getParamString();
+        $args_string = $parameters->getArgString();
+        return [
+            $params_string,
+            "
+            return StaticMock\\MethodReplacer\\MethodInvoker::invoke(
+                '{$class_name}', '{$method_name}', {$args_string}
+            );
+            "
+        ];
     }
 
     private function getStashedMethodName($method_name)
@@ -95,12 +108,14 @@ class MethodReplaceableClass {
     /**
      * Added the information of the pseudo implementation
      *
-     * @param string $method_name
+     * @param string   $method_name
      * @param callable $func anonymous function
+     * @param callable $original original anonymous function
      * @return $this
      * @throws MethodNotFoundException
+     * @throws \ReflectionException
      */
-    public function addMethod($method_name, \Closure $func)
+    public function addMethod($method_name, \Closure $func, \Closure $original)
     {
         if (!method_exists($this->class_name, $method_name)) {
             throw new MethodNotFoundException("{$this->class_name} doesn't have such a method ({$method_name})");
@@ -108,6 +123,7 @@ class MethodReplaceableClass {
 
         $this->methods[$method_name] = $func;
 
+        [$params, $code] = $this->getFakeCode($this->class_name, $method_name, $original);
         if ($this->use_runkit) {
             if (!$this->stashedMethodExists($method_name)) {
                 /**
@@ -129,20 +145,13 @@ class MethodReplaceableClass {
                 }
             }
 
-            $code = $this->getFakeCode($this->class_name, $method_name);
             if (function_exists('runkit7_method_add')) {
-                runkit7_method_add($this->class_name, $method_name, '', $code, RUNKIT_ACC_STATIC);
+                runkit7_method_add($this->class_name, $method_name, $params, $code, RUNKIT_ACC_STATIC);
             } else {
-                runkit_method_add($this->class_name, $method_name, '', $code, RUNKIT_ACC_STATIC);
+                runkit_method_add($this->class_name, $method_name, $params, $code, RUNKIT_ACC_STATIC);
             }
         } else {
-            $class_name = $this->class_name;
-            $callback = function () use ($class_name, $method_name) {
-                return call_user_func_array(
-                    array('StaticMock\MethodReplacer\MethodInvoker', 'invoke'),
-                    array_merge(array($class_name, $method_name), func_get_args())
-                );
-            };
+            $callback = eval("return function({$params}) { {$code} };");
             uopz_set_return($this->class_name, $method_name, $callback, 1);
         }
 
