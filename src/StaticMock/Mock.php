@@ -192,7 +192,7 @@ class Mock {
             throw new \InvalidArgumentException("arguments should be a Closure");
         }
         $impl = $this->fake->getImplementation($implementation);
-        ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
+        ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl, $implementation);
         return $this;
     }
 

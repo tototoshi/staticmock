@@ -83,16 +83,18 @@ class ClassManager implements Singleton {
     /**
      * Register the pseudo implementation
      *
-     * @param string $class_name
-     * @param string $method_name
+     * @param string   $class_name
+     * @param string   $method_name
      * @param callable $method_implementation
+     * @param callable $bear_implementation The closure as given to andImplementation()
+     * @throws \ReflectionException
      */
-    public function register($class_name, $method_name, \Closure $method_implementation)
+    public function register($class_name, $method_name, \Closure $method_implementation, \Closure $bear_implementation = null)
     {
         $this->managed_classes[$class_name] =
             $this
                 ->getManagedClassOrNewOne($class_name)
-                ->addMethod($method_name, $method_implementation);
+                ->addMethod($method_name, $method_implementation, $bear_implementation ?? $method_implementation);
     }
 
     /**

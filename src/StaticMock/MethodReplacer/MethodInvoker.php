@@ -46,12 +46,9 @@ class MethodInvoker {
      * @return mixed
      * @throws \StaticMock\Exception\MethodInvocationException
      */
-    public static function invoke($class_name, $method_name)
+    public static function invoke($class_name, $method_name, &...$method_args)
     {
-        $args = func_get_args();
-        $method_args = array_slice($args, 2);
-
-        $managed_class = ClassManager::getInstance()->getManagedClassOrNewOne($class_name);
+         $managed_class = ClassManager::getInstance()->getManagedClassOrNewOne($class_name);
 
         $fake_method = $managed_class->getMethod($method_name);
 
@@ -59,7 +56,7 @@ class MethodInvoker {
             throw new MethodInvocationException("Method not found! {$class_name}::{$method_name}");
         }
 
-        return call_user_func_array($fake_method, $method_args);
+        return $fake_method(...$method_args);
     }
 
 }
