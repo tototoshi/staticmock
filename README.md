@@ -18,14 +18,13 @@ $mock->assert();
 
 Mockery (https://github.com/padraic/mockery) provides nice interfaces to create mock objects. But as for static methods, Mockery needs an alias class and we can't create a mock object in one shot with his easy DSL.
 
-StaticMock provides Mockery-like DSL for static methods. StaticMock depends on [runkit7](https://github.com/runkit7/runkit7) extension and rewrites static methods temporarily at run-time.
+StaticMock provides Mockery-like DSL for static methods. StaticMock depends on [runkit7](https://github.com/runkit7/runkit7) extension or [uopz](https://github.com/krakjoe/uopz) extension and rewrites static methods temporarily at run-time.
 
 ## Requirements
 
-- PHP 7.3 and runkit 1.0.11
-- PHP >= 7.3 and runkit >= 4.0.0a2
-
-I recommend using [runkit7/runkit7](https://github.com/runkit7/runkit7).
+- PHP 7.3 and [runkit7/runkit7](https://github.com/runkit7/runkit7) 1.0.11
+- PHP >= 7.3 and [runkit7/runkit7](https://github.com/runkit7/runkit7) >= 4.0.0a2
+- PHP >= 7.3 and [krakjoe/uopz](https://github.com/krakjoe/uopz)
 
 ### About runkit7 settings
 
