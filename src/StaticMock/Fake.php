@@ -54,7 +54,7 @@ class Fake {
         $that = $this;
         return function (&...$args) use ($implementation, $that) {
             Counter::getInstance()->increment($that->hash());
-            Arguments::getInstance()->record($that->hash(), ...$args);
+            Arguments::getInstance()->record($that->hash(), $args);
             return $implementation(...$args);
         };
     }

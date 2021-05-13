@@ -187,4 +187,12 @@ class MockTest extends \PHPUnit\Framework\TestCase
         $mock->assert();
     }
 
+    public function testAndReturnWithAnonymousFunctionWithNoParam()
+    {
+        $mock = \StaticMock::mock('StaticMock\Car');
+        $mock->shouldReceive('boo')->times(1)->andImplement(function () { return true; });
+        $p = new Person();
+        $p->drive();
+        $mock->assert();
+    }
 }
