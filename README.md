@@ -23,7 +23,7 @@ StaticMock provides Mockery-like DSL for static methods. StaticMock depends on [
 ## Requirements
 
 - PHP 7.3 and [runkit7/runkit7](https://github.com/runkit7/runkit7) 1.0.11
-- PHP >= 7.3 and [runkit7/runkit7](https://github.com/runkit7/runkit7) >= 4.0.0a2
+- PHP >= 7.3 and [runkit7/runkit7](https://github.com/runkit7/runkit7) >= 4.0.0a3
 - PHP >= 7.3 and [krakjoe/uopz](https://github.com/krakjoe/uopz)
 
 ### About runkit7 settings
