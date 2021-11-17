@@ -157,7 +157,7 @@ class UserTest extends \PHPUnit\Framework\TestCase
 
 ### Common pitfalls
 
-Assigning a mock variable (`$mock = StaticMock::mock('MyClass')`) is required sice StaticMock is implemented with constructor and destructor magic.
+Assigning a mock variable (`$mock = StaticMock::mock('MyClass')`) is required since StaticMock is implemented with constructor and destructor magic.
 The methods are replaced when the instance of `Mock` class is created by `StaticMock::mock` and reverted when the instance goes out of scope.
 
 So, the following code doesn't work as you expect.
