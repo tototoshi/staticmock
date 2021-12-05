@@ -15,9 +15,11 @@ composer := ./composer
 	ci-php-7.3-runkit-1.0.11 \
 	ci-php-7.4-runkit-4.0.0a3 \
 	ci-php-8.0-runkit-4.0.0a3 \
+	ci-php-8.1-runkit-4.0.0a3 \
 	ci-php-7.3-uopz-6.1.2 \
 	ci-php-7.4-uopz-6.1.2 \
-	ci-php-8.0-uopz
+	ci-php-8.0-uopz \
+	ci-php-8.1-uopz
 
 $(composer):
 	curl -Ls https://raw.githubusercontent.com/tototoshi/composerx/main/composer > $(composer) && chmod +x $(composer)
@@ -61,6 +63,9 @@ ci-php-7.4-runkit-4.0.0a3:
 ci-php-8.0-runkit-4.0.0a3:
 	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.0 ./ci/test-runkit.sh 4.0.0a3
 
+ci-php-8.1-runkit-4.0.0a3:
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.1 ./ci/test-runkit.sh 4.0.0a3
+
 ci-php-7.3-uopz-6.1.2:
 	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:7.3 ./ci/test-uopz.sh 6.1.2
 
@@ -69,3 +74,6 @@ ci-php-7.4-uopz-6.1.2:
 
 ci-php-8.0-uopz:
 	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.0 ./ci/test-uopz-master.sh
+
+ci-php-8.1-uopz:
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.1 ./ci/test-uopz-master.sh
