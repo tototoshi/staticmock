@@ -8,5 +8,4 @@ $(dirname $0)/install_packages.sh
 $(dirname $0)/install_uopz_master.sh
 
 ./composer install
-./composer update
 ./composer exec phpunit test

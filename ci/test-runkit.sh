@@ -10,5 +10,4 @@ $(dirname $0)/install_packages.sh
 $(dirname $0)/install_runkit.sh $runkit_version
 
 ./composer install
-./composer update
 ./composer exec phpunit test
