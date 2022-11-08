@@ -198,4 +198,17 @@ class MockTest extends \PHPUnit\Framework\TestCase
         $p->drive();
         $mock->assert();
     }
+
+    public function testMultipleShouldReceivePrepare() {
+        $mock = \StaticMock::mock('StaticMock\Car');
+        $mock->shouldReceive('boo')->andReturn('MockedBoo!');
+        $this->assertEquals('MockedBoo!', Car::boo());
+        $mock->shouldReceive('beep')->andReturn('MockedBeep!');
+        $this->assertEquals('MockedBeep!', Car::beep(1));
+    }
+
+    public function testMultipleShouldReceiveCheck() {
+        $this->assertNotEquals('MockedBoo!', Car::boo());
+        $this->assertNotEquals('MockedBeep!', Car::beep(1));
+    }
 }

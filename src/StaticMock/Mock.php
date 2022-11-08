@@ -46,6 +46,8 @@ class Mock {
 
     private $method_name;
 
+    private $regidtered_method_names = [];
+
     private $fake;
 
     private $shouldCalledCount;
@@ -80,7 +82,9 @@ class Mock {
 
     public function __destruct()
     {
-        ClassManager::getInstance()->deregister($this->class_name, $this->method_name);
+        foreach ($this->regidtered_method_names as $method_name) {
+            ClassManager::getInstance()->deregister($this->class_name, $method_name);
+        }
         Counter::getInstance()->clear($this->fake->hash());
         Arguments::getInstance()->clear($this->fake->hash());
 
@@ -167,6 +171,9 @@ class Mock {
         $this->method_name = $method_name;
         $impl = $this->fake->getConstantImplementation(null);
         ClassManager::getInstance()->register($this->class_name, $this->method_name, $impl);
+        if (!in_array($method_name, $this->regidtered_method_names, true)) {
+            $this->regidtered_method_names[] = $method_name;
+        }
         return $this;
     }
 
