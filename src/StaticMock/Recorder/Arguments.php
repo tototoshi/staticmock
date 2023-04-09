@@ -29,15 +29,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-
 namespace StaticMock\Recorder;
-
 
 use StaticMock\Marker\Singleton;
 
-class Arguments implements Singleton {
-
+class Arguments implements Singleton
+{
     private static $instance;
 
     private $args = array();

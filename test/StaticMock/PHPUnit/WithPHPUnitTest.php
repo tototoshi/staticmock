@@ -7,10 +7,9 @@ use StaticMock\Person;
 
 class WithPHPUnitTest extends \PHPUnit\Framework\TestCase
 {
-
     public function assertStaticMock(Mock $mock)
     {
-        $this->assertThat($mock, new StaticMockConstraint);
+        $this->assertThat($mock, new StaticMockConstraint());
     }
 
     public function testWithPHPUnitTest()

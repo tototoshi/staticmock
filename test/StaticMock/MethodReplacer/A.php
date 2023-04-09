@@ -1,8 +1,9 @@
 <?php
+
 namespace StaticMock\MethodReplacer;
 
-class A {
-
+class A
+{
     public static function a()
     {
         return 1;

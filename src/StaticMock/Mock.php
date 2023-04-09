@@ -29,9 +29,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 namespace StaticMock;
-
 
 use phpDocumentor\Reflection\Exception;
 use StaticMock\Exception\AssertionFailedException;
@@ -40,8 +38,8 @@ use StaticMock\Recorder\Arguments;
 use StaticMock\Recorder\Counter;
 use StaticMock\Util\StringUtil;
 
-class Mock {
-
+class Mock
+{
     private $class_name;
 
     private $method_name;
