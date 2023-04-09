@@ -39,3 +39,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3.1.0
       - run: make phpcs-check
+
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - run: ./composer install
+      - run: make phpstan
