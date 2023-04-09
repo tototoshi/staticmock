@@ -11,4 +11,4 @@ $(dirname $0)/install_uopz.sh $uopz_version
 
 ./composer install
 ./composer update
-./composer exec phpunit test
+./vendor/phpunit/phpunit/phpunit test
