@@ -1,9 +1,9 @@
 <?php
+
 namespace StaticMock\MethodReplacer;
 
-
-class C {
-
+class C
+{
     public static function bar()
     {
         return A::a();

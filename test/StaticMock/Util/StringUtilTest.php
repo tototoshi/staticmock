@@ -1,4 +1,5 @@
 <?php
+
 namespace StaticMock\Util;
 
 class HasToString

@@ -1,9 +1,9 @@
 <?php
+
 namespace StaticMock;
 
-
-class Person {
-
+class Person
+{
     public function drive()
     {
         return Car::boo();

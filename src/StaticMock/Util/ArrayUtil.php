@@ -29,12 +29,10 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 namespace StaticMock\Util;
 
-
-class ArrayUtil {
-
+class ArrayUtil
+{
     public static function isAssoc(array $xs)
     {
         $index = 0;
@@ -46,4 +44,4 @@ class ArrayUtil {
         }
         return false;
     }
-} 
+}

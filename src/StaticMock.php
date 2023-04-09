@@ -36,8 +36,8 @@ use StaticMock\Stub;
 /**
  * Class StaticMock
  */
-class StaticMock {
-
+class StaticMock
+{
     /**
      * Factory method to create a mock in one shot.
      *

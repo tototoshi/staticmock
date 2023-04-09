@@ -30,14 +30,15 @@
  */
 
 namespace StaticMock\MethodReplacer;
+
 use StaticMock\Exception\MethodInvocationException;
 
 /**
  * Class MethodInvoker
  * @package StaticMock\MethodReplacer
  */
-class MethodInvoker {
-
+class MethodInvoker
+{
     /**
      * Invoke pseudo method that has been registered to ClassManager
      *
@@ -48,7 +49,7 @@ class MethodInvoker {
      */
     public static function invoke($class_name, $method_name, &...$method_args)
     {
-         $managed_class = ClassManager::getInstance()->getManagedClassOrNewOne($class_name);
+        $managed_class = ClassManager::getInstance()->getManagedClassOrNewOne($class_name);
 
         $fake_method = $managed_class->getMethod($method_name);
 

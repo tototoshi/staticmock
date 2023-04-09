@@ -35,5 +35,6 @@ namespace StaticMock\Exception;
  * Class MethodNotFoundException
  * @package StaticMock\Exception
  */
-class MethodNotFoundException extends \RuntimeException {
+class MethodNotFoundException extends \RuntimeException
+{
 }

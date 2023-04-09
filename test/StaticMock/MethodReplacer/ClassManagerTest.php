@@ -1,16 +1,16 @@
 <?php
+
 namespace StaticMock\MethodReplacer;
 
 class ClassManagerTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testMock()
     {
         $manager = ClassManager::getInstance();
-        $manager->register('StaticMock\MethodReplacer\A', 'a', function() {
+        $manager->register('StaticMock\MethodReplacer\A', 'a', function () {
             return 3;
         });
-        $manager->register('StaticMock\MethodReplacer\B', 'b', function() {
+        $manager->register('StaticMock\MethodReplacer\B', 'b', function () {
             return 4;
         });
 

@@ -29,16 +29,14 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-
 namespace StaticMock\Exception;
 
 /**
  * Class AssertionFailedException
  * @package StaticMock\Exception
  */
-class AssertionFailedException extends \RuntimeException {
-
+class AssertionFailedException extends \RuntimeException
+{
     public function setFile($file)
     {
         $this->file = $file;

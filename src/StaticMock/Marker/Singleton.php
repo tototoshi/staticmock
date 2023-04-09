@@ -29,10 +29,8 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-
 namespace StaticMock\Marker;
 
-
-interface Singleton {
+interface Singleton
+{
 }

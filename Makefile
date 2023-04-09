@@ -2,6 +2,7 @@ pwd := $(shell pwd)
 composer := ./composer
 
 .PHONY: \
+	phpcs \
 	clean \
 	docker-bash \
 	use-uopz \
@@ -27,6 +28,18 @@ $(composer):
 clean:
 	rm -rf vendor/
 	$(composer) clear-cache
+
+tools/php-cs-fixer/vendor/bin/php-cs-fixer:
+	mkdir -p tools/php-cs-fixer
+	$(composer) require --dev --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
+
+phpcs: tools/php-cs-fixer/vendor/bin/php-cs-fixer
+	./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src
+	./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix test	
+	
+phpcs-check: tools/php-cs-fixer/vendor/bin/php-cs-fixer
+	./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run src
+	./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run test
 
 docker-bash:
 	docker build -t staticmock-dev -f Dockerfile .

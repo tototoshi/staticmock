@@ -30,6 +30,7 @@
  */
 
 namespace StaticMock\MethodReplacer;
+
 use StaticMock\Exception\ClassNotFoundException;
 use StaticMock\Exception\ExtensionNotFoundException;
 use StaticMock\Exception\MethodNotFoundException;
@@ -38,8 +39,8 @@ use StaticMock\Exception\MethodNotFoundException;
  * Class MethodReplaceableClass
  * @package StaticMock\MethodReplacer
  */
-class MethodReplaceableClass {
-
+class MethodReplaceableClass
+{
     private $class_name;
 
     /**
@@ -58,7 +59,7 @@ class MethodReplaceableClass {
     {
         if (function_exists('runkit7_method_rename') || function_exists('runkit_method_rename')) {
             $this->use_runkit = true;
-        } else if (function_exists('uopz_set_return')) {
+        } elseif (function_exists('uopz_set_return')) {
             $this->use_runkit = false;
         } else {
             throw new ExtensionNotFoundException("PHP extension not found, please install runkit7(runkit) or uopz");

@@ -1,11 +1,11 @@
 <?php
+
 namespace StaticMock;
 
 use StaticMock\Exception\AssertionFailedException;
 
 class MockTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testMock()
     {
         $mock = \StaticMock::mock('StaticMock\Car');

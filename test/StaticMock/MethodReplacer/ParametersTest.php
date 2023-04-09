@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class ParametersTest extends TestCase
 {
-
     /**
      * @param $expected
      * @param $func

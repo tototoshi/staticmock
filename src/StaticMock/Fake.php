@@ -31,12 +31,11 @@
 
 namespace StaticMock;
 
-
 use StaticMock\Recorder\Arguments;
 use StaticMock\Recorder\Counter;
 
-class Fake {
-
+class Fake
+{
     private $_hash;
 
     public function __construct()

@@ -1,9 +1,9 @@
 <?php
+
 namespace StaticMock\MethodReplacer;
 
 class MethodReplaceableClassTest extends \PHPUnit\Framework\TestCase
 {
-
     public function test__construct()
     {
         $class_name = 'StaticMock\MethodReplacer\A';

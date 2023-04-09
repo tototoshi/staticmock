@@ -31,11 +31,10 @@
 
 namespace StaticMock\Recorder;
 
-
 use StaticMock\Marker\Singleton;
 
-class Counter implements Singleton {
-
+class Counter implements Singleton
+{
     private static $instance;
 
     private $count = array();

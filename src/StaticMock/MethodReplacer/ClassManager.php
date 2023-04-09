@@ -30,14 +30,15 @@
  */
 
 namespace StaticMock\MethodReplacer;
+
 use StaticMock\Marker\Singleton;
 
 /**
  * Class ClassManager
  * @package StaticMock\MethodReplacer
  */
-class ClassManager implements Singleton {
-
+class ClassManager implements Singleton
+{
     private static $instance = null;
 
     private $managed_classes = array();
@@ -111,4 +112,3 @@ class ClassManager implements Singleton {
     }
 
 }
-

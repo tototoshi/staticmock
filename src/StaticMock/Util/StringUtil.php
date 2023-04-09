@@ -31,14 +31,15 @@
 
 namespace StaticMock\Util;
 
-
-class StringUtil {
-
-    public static function methodArgsToReadableString(array $elements) {
+class StringUtil
+{
+    public static function methodArgsToReadableString(array $elements)
+    {
         return substr(self::arrayToReadableString($elements), 5);
     }
 
-    public static function arrayToReadableString(array $elements) {
+    public static function arrayToReadableString(array $elements)
+    {
         $buf = '';
 
         $is_assoc = ArrayUtil::isAssoc($elements);
@@ -48,7 +49,7 @@ class StringUtil {
 
             if (is_object($element)) {
                 $element_as_string = self::objectToReadableString($element);
-            } else if (is_array($element)) {
+            } elseif (is_array($element)) {
                 $element_as_string = self::arrayToReadableString($element);
             } else {
                 $element_as_string = (string) $element;
@@ -80,4 +81,4 @@ class StringUtil {
         }
     }
 
-} 
+}

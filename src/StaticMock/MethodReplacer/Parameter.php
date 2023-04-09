@@ -1,8 +1,6 @@
 <?php
 
-
 namespace StaticMock\MethodReplacer;
-
 
 class Parameter
 {
@@ -68,4 +66,3 @@ class Parameter
         return $this->parameter->isPassedByReference();
     }
 }
-

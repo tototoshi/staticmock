@@ -1,9 +1,9 @@
 <?php
+
 namespace StaticMock;
 
-
-class Car {
-
+class Car
+{
     public static function boo()
     {
         return 'boo!';
