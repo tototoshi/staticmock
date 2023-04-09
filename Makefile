@@ -21,9 +21,6 @@ composer := ./composer
 	ci-php-8.0-uopz \
 	ci-php-8.1-uopz
 
-$(composer):
-	curl -Ls https://raw.githubusercontent.com/tototoshi/composerx/main/composer > $(composer) && chmod +x $(composer)
-
 clean:
 	rm -rf vendor/
 	$(composer) clear-cache
