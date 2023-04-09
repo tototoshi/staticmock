@@ -37,7 +37,7 @@ phpcs: tools/php-cs-fixer/vendor/bin/php-cs-fixer
 	./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src
 	./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix test	
 	
-phpcs-check:
+phpcs-check: tools/php-cs-fixer/vendor/bin/php-cs-fixer
 	./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run src
 	./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run test
 
