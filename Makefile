@@ -9,13 +9,13 @@ composer := ./composer
 	test \
 	test-uopz \
 	test-runkit \
-	ci-php-7.3-runkit-4.0.0a3 \
+	ci-php-7.3-runkit-4.0.0a6 \
 	ci-php-7.3-runkit-3.0.0 \
 	ci-php-7.3-runkit-2.1.0 \
 	ci-php-7.3-runkit-1.0.11 \
-	ci-php-7.4-runkit-4.0.0a3 \
-	ci-php-8.0-runkit-4.0.0a3 \
-	ci-php-8.1-runkit-4.0.0a3 \
+	ci-php-7.4-runkit-4.0.0a6 \
+	ci-php-8.0-runkit-4.0.0a6 \
+	ci-php-8.1-runkit-4.0.0a6 \
 	ci-php-7.3-uopz-6.1.2 \
 	ci-php-7.4-uopz-6.1.2 \
 	ci-php-8.0-uopz \
@@ -45,8 +45,8 @@ test-uopz: use-uopz test
 
 test-runkit7: use-runkit7 test
 
-ci-php-7.3-runkit-4.0.0a3:
-	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:7.3 ./ci/test-runkit.sh 4.0.0a3
+ci-php-7.3-runkit-4.0.0a6:
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:7.3 ./ci/test-runkit.sh 4.0.0a6
 
 ci-php-7.3-runkit-3.0.0:
 	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:7.3 ./ci/test-runkit.sh 3.0.0
@@ -57,14 +57,14 @@ ci-php-7.3-runkit-2.1.0:
 ci-php-7.3-runkit-1.0.11:
 	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:7.3 ./ci/test-runkit.sh 1.0.11
 
-ci-php-7.4-runkit-4.0.0a3:
-	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:7.4 ./ci/test-runkit.sh 4.0.0a3
+ci-php-7.4-runkit-4.0.0a6:
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:7.4 ./ci/test-runkit.sh 4.0.0a6
 
-ci-php-8.0-runkit-4.0.0a3:
-	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.0 ./ci/test-runkit.sh 4.0.0a3
+ci-php-8.0-runkit-4.0.0a6:
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.0 ./ci/test-runkit.sh 4.0.0a6
 
-ci-php-8.1-runkit-4.0.0a3:
-	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.1 ./ci/test-runkit.sh 4.0.0a3
+ci-php-8.1-runkit-4.0.0a6:
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.1 ./ci/test-runkit.sh 4.0.0a6
 
 ci-php-7.3-uopz-6.1.2:
 	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:7.3 ./ci/test-uopz.sh 6.1.2
