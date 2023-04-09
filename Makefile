@@ -3,6 +3,8 @@ composer := ./composer
 
 .PHONY: \
 	phpcs \
+	phpcs-check \
+	phpstan \
 	clean \
 	docker-bash \
 	use-uopz \
@@ -40,6 +42,13 @@ phpcs: tools/php-cs-fixer/vendor/bin/php-cs-fixer
 phpcs-check: tools/php-cs-fixer/vendor/bin/php-cs-fixer
 	./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run src
 	./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run test
+
+tools/phpstan/vendor/bin/phpstan:
+	mkdir -p tools/phpstan
+	$(composer) require --dev --working-dir=tools/phpstan phpstan/phpstan
+
+phpstan: tools/phpstan/vendor/bin/phpstan
+	./tools/phpstan/vendor/bin/phpstan analyse src test
 
 docker-bash:
 	docker build -t staticmock-dev -f Dockerfile .

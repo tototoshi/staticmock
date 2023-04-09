@@ -83,9 +83,10 @@ class Parameters
         for ($i = 0; ; $i++) {
             $rest_name = 'rest' . $i;
             if (!in_array($rest_name, $names)) {
-                return '...$' . $rest_name;
+                break;
             }
         }
+        return '...$' . $rest_name;
     }
 
     /**
