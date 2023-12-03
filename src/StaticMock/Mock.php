@@ -82,7 +82,7 @@ class Mock
         Counter::getInstance()->clear($this->fake->hash());
         Arguments::getInstance()->clear($this->fake->hash());
 
-        if ((! $this->assertion_done) && ($this->shouldCalledCount !== null || $this->shouldPassedArgs !== null)) {
+        if ((!$this->assertion_done) && ($this->shouldCalledCount !== null || $this->shouldPassedArgs !== null)) {
             error_log(
                 "Some expectations are set but Mock::assert() has not been called. " .
                 "The instance is created at file={$this->file_instance_created}, " .
@@ -186,7 +186,7 @@ class Mock
      */
     public function andImplement($implementation)
     {
-        if (! $implementation instanceof \Closure) {
+        if (!$implementation instanceof \Closure) {
             throw new \InvalidArgumentException("arguments should be a Closure");
         }
         $impl = $this->fake->getImplementation($implementation);
@@ -239,7 +239,7 @@ class Mock
 
     public function withNthArg($n, $arg)
     {
-        if (! is_int($n) || $n < 1) {
+        if (!is_int($n) || $n < 1) {
             throw new \InvalidArgumentException('first argument of ::withNthArgs must be a positive int.');
         }
         if (is_null($this->shouldPassedArgs)) {
