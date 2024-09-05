@@ -170,7 +170,7 @@ class Mock
 
     /**
      * @param $return_value
-     * @return $this;
+     * @return $this
      */
     public function andReturn($return_value)
     {
