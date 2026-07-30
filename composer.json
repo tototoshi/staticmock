@@ -2,13 +2,17 @@
     "name": "tototoshi/staticmock",
     "description": "A mockery-like DSL to replace static method in test.",
     "license": "BSD-3-Clause",
+    "require": {
+        "php": ">=7.3"
+    },
     "suggest": {
-        "ext-runkit": "https://github.com/runkit7/runkit7"
+        "ext-runkit7": "https://github.com/runkit7/runkit7 (PHP <= 8.1)",
+        "ext-uopz": "https://github.com/krakjoe/uopz (PHP >= 7.4, including 8.4+)"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5.3",
+        "phpunit/phpunit": "^9.6 || ^10.5 || ^11.5",
         "herrera-io/runkit-hint": "*",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^1.12 || ^2.0"
     },
     "autoload": {
         "psr-0": { "StaticMock": ["src/"] }

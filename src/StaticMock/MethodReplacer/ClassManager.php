@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2013, Toshiyuki Takahashi
  * All rights reserved.
@@ -90,7 +91,7 @@ class ClassManager implements Singleton
      * @param callable $bear_implementation The closure as given to andImplementation()
      * @throws \ReflectionException
      */
-    public function register($class_name, $method_name, \Closure $method_implementation, \Closure $bear_implementation = null)
+    public function register($class_name, $method_name, \Closure $method_implementation, ?\Closure $bear_implementation = null)
     {
         $this->managed_classes[$class_name] =
             $this

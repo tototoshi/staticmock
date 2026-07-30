@@ -1,10 +1,14 @@
-FROM php:7.4
+FROM php:8.4
 
 RUN apt-get update &&\
     apt-get install -y git unzip zip
 
-RUN pecl install channel://pecl.php.net/runkit7-4.0.0a6
-RUN pecl install uopz
+# runkit7 does not support PHP >= 8.2. Use uopz (built from master) instead.
+RUN cd /tmp &&\
+    git clone https://github.com/krakjoe/uopz.git &&\
+    cd uopz &&\
+    phpize && ./configure && make && make install &&\
+    rm -rf /tmp/uopz
 
 ENV PATH=/root/bin:$PATH
 
