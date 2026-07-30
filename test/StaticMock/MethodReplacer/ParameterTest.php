@@ -12,7 +12,8 @@ class ParameterTest extends TestCase
     public function testGetName()
     {
         $parameter = (new \ReflectionFunction(
-            function ($foo) {}
+            function ($foo) {
+            }
         ))->getParameters()[0];
 
         $target = new Parameter($parameter);
@@ -26,7 +27,8 @@ class ParameterTest extends TestCase
     public function testGetVar()
     {
         $parameter = (new \ReflectionFunction(
-            function ($foo) {}
+            function ($foo) {
+            }
         ))->getParameters()[0];
 
         $target = new Parameter($parameter);
@@ -49,15 +51,21 @@ class ParameterTest extends TestCase
         $this->assertSame($expected, $target->getArgString());
     }
 
-    public function getArgStringDataProvider(): array
+    public static function getArgStringDataProvider(): array
     {
         return [
-            ['$foo', function ($foo) {}],
-            ['$foo', function (&$foo) {}],
-            ['...$foo', function (...$foo) {}],
-            ['...$foo', function (&...$foo) {}],
-            ['$foo', function ($foo = 1) {}],
-            ['$foo', function (&$foo = 1) {}],
+            ['$foo', function ($foo) {
+            }],
+            ['$foo', function (&$foo) {
+            }],
+            ['...$foo', function (...$foo) {
+            }],
+            ['...$foo', function (&...$foo) {
+            }],
+            ['$foo', function ($foo = 1) {
+            }],
+            ['$foo', function (&$foo = 1) {
+            }],
         ];
     }
 
@@ -76,15 +84,21 @@ class ParameterTest extends TestCase
         $this->assertSame($expected, $target->getParamString());
     }
 
-    public function getParamStringDataProvider(): array
+    public static function getParamStringDataProvider(): array
     {
         return [
-            ['$foo', function ($foo) {}],
-            ['&$foo', function (&$foo) {}],
-            ['...$foo', function (...$foo) {}],
-            ['&...$foo', function (&...$foo) {}],
-            ['$foo=1', function ($foo = 1) {}],
-            ['&$foo=1', function (&$foo = 1) {}],
+            ['$foo', function ($foo) {
+            }],
+            ['&$foo', function (&$foo) {
+            }],
+            ['...$foo', function (...$foo) {
+            }],
+            ['&...$foo', function (&...$foo) {
+            }],
+            ['$foo=1', function ($foo = 1) {
+            }],
+            ['&$foo=1', function (&$foo = 1) {
+            }],
         ];
     }
 }

@@ -22,7 +22,11 @@ composer := ./composer
 	ci-php-7.3-uopz-6.1.2 \
 	ci-php-7.4-uopz-6.1.2 \
 	ci-php-8.0-uopz \
-	ci-php-8.1-uopz
+	ci-php-8.1-uopz \
+	ci-php-8.2-uopz \
+	ci-php-8.3-uopz \
+	ci-php-8.4-uopz \
+	ci-php-8.5-uopz
 
 $(composer):
 	curl -Ls https://raw.githubusercontent.com/tototoshi/composerx/main/composer > $(composer) && chmod +x $(composer)
@@ -99,3 +103,15 @@ ci-php-8.0-uopz:
 
 ci-php-8.1-uopz:
 	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.1 ./ci/test-uopz-master.sh
+
+ci-php-8.2-uopz:
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.2 ./ci/test-uopz-master.sh
+
+ci-php-8.3-uopz:
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.3 ./ci/test-uopz-master.sh
+
+ci-php-8.4-uopz:
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.4 ./ci/test-uopz-master.sh
+
+ci-php-8.5-uopz:
+	docker run --rm -v $(pwd):$(pwd) -w $(pwd) php:8.5 ./ci/test-uopz-master.sh
