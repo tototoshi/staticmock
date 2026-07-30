@@ -36,7 +36,9 @@ class Parameters
     public function getArgString(): string
     {
         $strings = array_map(
-            function ($p) { return $p->getArgString(); },
+            function ($p) {
+                return $p->getArgString();
+            },
             $this->parameters
         );
 
@@ -56,7 +58,9 @@ class Parameters
     public function getParamString(): string
     {
         $strings = array_map(
-            function ($p) { return $p->getParamString(); },
+            function ($p) {
+                return $p->getParamString();
+            },
             $this->parameters
         );
 
@@ -76,7 +80,9 @@ class Parameters
     private function getRestParameter(): string
     {
         $names = array_map(
-            function ($p) { return $p->getName(); },
+            function ($p) {
+                return $p->getName();
+            },
             $this->parameters
         );
 
@@ -97,7 +103,9 @@ class Parameters
     public static function make($func): self
     {
         $parameters = array_map(
-            function ($rp) { return new Parameter($rp); },
+            function ($rp) {
+                return new Parameter($rp);
+            },
             (new \ReflectionFunction($func))->getParameters()
         );
 

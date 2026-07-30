@@ -179,7 +179,9 @@ class MockTest extends \PHPUnit\Framework\TestCase
     public function testAndReturnWithAnonymousFunction()
     {
         $mock = \StaticMock::mock('StaticMock\Car');
-        $mock->shouldReceive('beep')->times(1)->andImplement(function ($x) { return $x * 3; });
+        $mock->shouldReceive('beep')->times(1)->andImplement(function ($x) {
+            return $x * 3;
+        });
 
         $p = new Person();
         $actual = $p->warn(5);
@@ -193,7 +195,9 @@ class MockTest extends \PHPUnit\Framework\TestCase
     public function testAndReturnWithAnonymousFunctionWithNoParam()
     {
         $mock = \StaticMock::mock('StaticMock\Car');
-        $mock->shouldReceive('boo')->times(1)->andImplement(function () { return true; });
+        $mock->shouldReceive('boo')->times(1)->andImplement(function () {
+            return true;
+        });
         $p = new Person();
         $p->drive();
         $mock->assert();
